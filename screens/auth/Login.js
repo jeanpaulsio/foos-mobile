@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import {
+  AsyncStorage,
   Text,
   TextInput,
   TouchableWithoutFeedback,
@@ -8,12 +10,32 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 
+import * as actions from "../../actions";
+
 class Login extends Component {
-  state = { handle: "", password: "" };
+  state = { email: "jp@rails.com", password: "Ready2go" };
+
+  async componentDidMount() {
+    // await AsyncStorage.removeItem("jwt");
+    // if jwt
+    //    test jwt to see if it is expired
+    //      if its not expired, redirect to "main"
+    //      else load login screen
+    // else
+    //    load login screen
+    const jwt = await AsyncStorage.getItem("jwt");
+
+    if (jwt) {
+      this.props.navigateTo("main");
+    }
+  }
 
   handleSignIn = () => {
-    console.log("handleSignIn")
-  }
+    const { email, password } = this.state;
+    this.props.authenticate({ email, password }, () => {
+      this.props.navigateTo("main")
+    });
+  };
 
   render() {
     return (
@@ -21,8 +43,8 @@ class Login extends Component {
         <Text>Login Screen</Text>
         <View style={styles.inputContainer}>
           <TextInput
-            value={this.state.handle}
-            onChangeText={handle => this.setState({ handle })}
+            value={this.state.email}
+            onChangeText={email => this.setState({ email })}
             style={styles.input}
             returnKeyType="done"
             blurOnSubmit
@@ -40,9 +62,7 @@ class Login extends Component {
           />
         </View>
 
-        <TouchableWithoutFeedback
-          onPressIn={this.handleSignIn}
-        >
+        <TouchableWithoutFeedback onPressIn={this.handleSignIn}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Sign In</Text>
           </View>
@@ -81,4 +101,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login;
+Login.propTypes = {
+  authenticate: PropTypes.func
+};
+
+export default connect(null, actions)(Login);

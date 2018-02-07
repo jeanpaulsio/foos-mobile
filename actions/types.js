@@ -1,0 +1,4 @@
+export const AUTHENTICATE      = "AUTHENTICATE";
+export const AUTHENTICATE_FAIL = "AUTHENTICATE_FAIL";
+
+export const NAVIGATE_TO_MAIN = "NAVIGATE_TO_MAIN";
