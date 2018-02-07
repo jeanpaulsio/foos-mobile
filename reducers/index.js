@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
+import nav from "./nav";
 
 const rootReducer = combineReducers({
-  temporary: () => [],
+  nav
 });
 
 export default rootReducer;
