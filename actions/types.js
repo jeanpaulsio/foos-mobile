@@ -1,3 +1,5 @@
+export const TOKEN_VALID       = "TOKEN_VALID";
+export const TOKEN_INVALID     = "TOKEN_INVALID";
 export const AUTHENTICATE      = "AUTHENTICATE";
 export const AUTHENTICATE_FAIL = "AUTHENTICATE_FAIL";
 

@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import * as actions from "../../actions";
 
 class Login extends Component {
-  state = { email: "jp@rails.com", password: "Ready2go" };
+  state = { handle: "jp", password: "foobar" };
 
   async componentDidMount() {
     // await AsyncStorage.removeItem("jwt");
@@ -24,6 +24,7 @@ class Login extends Component {
     // else
     //    load login screen
     const jwt = await AsyncStorage.getItem("jwt");
+    await this.props.checkToken(jwt);
 
     if (jwt) {
       this.props.navigateTo("main");
@@ -31,8 +32,8 @@ class Login extends Component {
   }
 
   handleSignIn = () => {
-    const { email, password } = this.state;
-    this.props.authenticate({ email, password }, () => {
+    const { handle, password } = this.state;
+    this.props.authenticate({ handle, password }, () => {
       this.props.navigateTo("main")
     });
   };
@@ -43,8 +44,8 @@ class Login extends Component {
         <Text>Login Screen</Text>
         <View style={styles.inputContainer}>
           <TextInput
-            value={this.state.email}
-            onChangeText={email => this.setState({ email })}
+            value={this.state.handle}
+            onChangeText={handle => this.setState({ handle })}
             style={styles.input}
             returnKeyType="done"
             blurOnSubmit

@@ -1,14 +1,43 @@
 import axios from "axios";
 import { AsyncStorage } from "react-native";
 
-import { AUTHENTICATE, AUTHENTICATE_FAIL } from "./types";
-import { USER_TOKEN } from "../endpoints";
+import {
+  TOKEN_VALID,
+  TOKEN_INVALID,
+  AUTHENTICATE,
+  AUTHENTICATE_FAIL
+} from "./types";
+import { PING, USER_TOKEN } from "../endpoints";
 
-export const authenticate = ({ email, password }, callback) => async dispatch => {
+export const requestHeaders = token => ({
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + token,
+  },
+})
+
+export const checkToken = token => async dispatch => {
   try {
-    const postParams = { auth: { email, password } };
+    const headers = requestHeaders(token)
+    await axios.get(PING, headers);
+
+    dispatch({ type: TOKEN_VALID });
+  } catch (e) {
+    dispatch({ type: TOKEN_INVALID });
+  }
+};
+
+export const authenticate = (
+  { handle, password },
+  callback
+) => async dispatch => {
+  try {
+    const postParams = { auth: { handle, password } };
     const { data } = await axios.post(USER_TOKEN, postParams);
     const { jwt } = data;
+
+    console.log("authenticate", data);
 
     AsyncStorage.setItem("jwt", jwt);
     dispatch({ type: AUTHENTICATE, payload: data });
