@@ -6,19 +6,18 @@ import PropTypes from "prop-types";
 import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
 import { Button, Container, Center, Input } from "../../components";
+import { forceSignOut } from "../../lib/auth_helpers";
 
 class Login extends Component {
-  state = { handle: "", password: "" };
+  state = { handle: "", password: "", forceSignOut: true };
 
   async componentDidMount() {
-    await AsyncStorage.removeItem("jwt");
+    this.state.forceSignOut && forceSignOut();
 
     const jwt = await AsyncStorage.getItem("jwt");
     await this.props.checkToken(jwt);
 
-    if (jwt) {
-      this.props.navigateTo("main");
-    }
+    jwt && this.props.navigateTo("main");
   }
 
   handleSignIn = () => {
@@ -30,7 +29,7 @@ class Login extends Component {
 
   render() {
     return (
-      <Container padding>
+      <Container errorMessage={this.props.errors.authErrors}>
         <Center>
           <Image
             style={styles.image}
@@ -95,4 +94,6 @@ Login.propTypes = {
   navigation: PropTypes.object
 };
 
-export default connect(null, actions)(Login);
+const mapStateToProps = ({ errors }) => ({ errors })
+
+export default connect(mapStateToProps, actions)(Login);

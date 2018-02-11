@@ -9,14 +9,7 @@ import {
   SIGN_OUT
 } from "./types";
 import { PING, USER_TOKEN } from "../endpoints";
-
-export const requestHeaders = token => ({
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-    Authorization: "Bearer " + token
-  }
-});
+import { requestHeaders } from "../lib/auth_helpers";
 
 export const checkToken = token => async dispatch => {
   try {
@@ -42,7 +35,10 @@ export const authenticate = (
     dispatch({ type: AUTHENTICATE, payload: data });
     callback();
   } catch (e) {
-    dispatch({ type: AUTHENTICATE_FAIL });
+    dispatch({
+      type: AUTHENTICATE_FAIL,
+      payload: "Double check your username and password"
+    });
   }
 };
 
