@@ -10,7 +10,8 @@ import * as dimensions from "../styles/dimensions";
 
 class Alert extends Component {
   handlePress = () => {
-    this.props.dismissErrors();
+    this.props.warning && this.props.dismissErrors();
+    this.props.success && this.props.dismissSuccess();
   };
 
   render() {
@@ -19,14 +20,18 @@ class Alert extends Component {
     return (
       <TouchableOpacity
         onPress={this.handlePress}
-        style={styles.errorContainer}
+        style={[
+          styles.alertContainer,
+          this.props.warning && styles.warning,
+          this.props.success && styles.success
+        ]}
       >
-        <View style={styles.errorContainerMessage}>
-          <Text style={styles.errorMessage}>{this.props.message}</Text>
+        <View style={styles.alertContainerMessage}>
+          <Text style={styles.alertMessage}>{this.props.message}</Text>
         </View>
 
-        <View style={styles.errorContainerClose}>
-          <Text style={styles.errorMessage}>
+        <View style={styles.alertContainerClose}>
+          <Text style={styles.alertMessage}>
             <Ionicons name="md-close-circle" size={20} color={colors.WHITE} />
           </Text>
         </View>
@@ -37,33 +42,41 @@ class Alert extends Component {
 
 Alert.propTypes = {
   message: PropTypes.string.isRequired,
-  dismissErrors: PropTypes.func
+  dismissErrors: PropTypes.func,
+  dismissSuccess: PropTypes.func,
+  warning: PropTypes.bool,
+  success: PropTypes.bool
 };
 
 const styles = StyleSheet.create({
-  errorContainer: {
-    backgroundColor: colors.WARNING,
+  alertContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     width: dimensions.SCREEN_WIDTH,
     paddingTop: 20
   },
-  errorContainerMessage: {
+  alertContainerMessage: {
     width: dimensions.SCREEN_WIDTH * 0.85,
     paddingVertical: 10,
     paddingLeft: 10
   },
-  errorContainerClose: {
+  alertContainerClose: {
     width: dimensions.SCREEN_WIDTH * 0.15,
     paddingVertical: 10,
     justifyContent: "center",
     alignItems: "center"
   },
-  errorMessage: {
+  alertMessage: {
     color: colors.WHITE,
     fontSize: 12,
     fontWeight: "600"
+  },
+  warning: {
+    backgroundColor: colors.WARNING
+  },
+  success: {
+    backgroundColor: colors.PRIMARY
   }
 });
 

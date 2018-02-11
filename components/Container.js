@@ -12,8 +12,9 @@ const Container = props => {
         props.bgColor && { backgroundColor: props.bgColor }
       ]}
     >
-      <Alert message={props.errorMessage} />
-      <View style={styles.children}>{props.children}</View>
+      <Alert warning message={props.errorMessage} />
+      <Alert success message={props.successMessage} />
+      <View style={[styles.children, props.style]}>{props.children}</View>
     </View>
   );
 };
@@ -21,13 +22,16 @@ const Container = props => {
 Container.propTypes = {
   children: PropTypes.node.isRequired,
   errorMessage: PropTypes.string.isRequired,
+  successMessage: PropTypes.string.isRequired,
   padding: PropTypes.bool,
-  bgColor: PropTypes.string
+  bgColor: PropTypes.string,
+  style: PropTypes.object
 };
 
 Container.defaultProps = {
   padding: false,
-  errorMessage: ""
+  errorMessage: "",
+  successMessage: ""
 };
 
 const styles = StyleSheet.create({

@@ -5,8 +5,9 @@ export const NAVIGATE_TO_LEADERBOARD = "NAVIGATE_TO_LEADERBOARD";
 export const NAVIGATE_TO_TEAMS       = "NAVIGATE_TO_TEAMS";
 export const NAVIGATE_TO_SETTINGS    = "NAVIGATE_TO_SETTINGS";
 
-// errors
+// alerts
 export const DISMISS_ERRORS   = "DISMISS_ERRORS";
+export const DISMISS_SUCCESS  = "DISMISS_SUCCESS";
 
 // auth
 export const VALIDATING_TOKEN         = "VALIDATING_TOKEN";
@@ -19,3 +20,8 @@ export const SIGNING_UP         = "SIGNING_UP";
 export const SIGNING_UP_FAIL    = "SIGNING_UP_FAIL";
 export const SIGNING_UP_SUCCESS = "SIGNING_UP_SUCCESS";
 export const SIGNING_OUT        = "SIGNING_OUT";
+
+// user
+export const UPDATING_USER         = "UPDATING_USER"
+export const UPDATING_USER_FAIL    = "UPDATING_USER_FAIL"
+export const UPDATING_USER_SUCCESS = "UPDATING_USER_SUCCESS"

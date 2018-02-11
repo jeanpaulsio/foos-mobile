@@ -30,7 +30,7 @@ class Login extends Component {
     const buttonIsDisabled = someEmptyItems(handle, password);
 
     return (
-      <Container errorMessage={this.props.errors.authErrors}>
+      <Container errorMessage={this.props.errors.auth}>
         <Center>
           <Image
             style={styles.image}

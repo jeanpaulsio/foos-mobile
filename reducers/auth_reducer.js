@@ -3,7 +3,8 @@ import {
   SIGNING_IN_FAIL,
   SIGNING_IN_SUCCESS,
   SIGNING_UP_SUCCESS,
-  SIGNING_OUT
+  SIGNING_OUT,
+  VALIDATING_TOKEN_SUCCESS
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -20,6 +21,7 @@ export default (state = INITIAL_STATE, action) => {
       };
     case SIGNING_UP_SUCCESS:
     case SIGNING_IN_SUCCESS:
+    case VALIDATING_TOKEN_SUCCESS:
       return {
         isRequesting: false,
         ...action.payload
