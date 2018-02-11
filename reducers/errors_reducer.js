@@ -6,9 +6,10 @@ import {
   SIGNING_UP,
   SIGNING_UP_FAIL,
   SIGNING_UP_SUCCESS,
+  SIGNING_OUT,
   UPDATING_USER,
   UPDATING_USER_FAIL,
-  UPDATING_USER_SUCCESS,
+  UPDATING_USER_SUCCESS
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -30,6 +31,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
     case SIGNING_IN_SUCCESS:
     case SIGNING_UP:
     case SIGNING_UP_SUCCESS:
+    case SIGNING_OUT:
     case UPDATING_USER:
     case UPDATING_USER_SUCCESS:
     default:

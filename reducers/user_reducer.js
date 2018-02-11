@@ -1,10 +1,11 @@
 import {
+  SIGNING_OUT,
   UPDATING_USER,
   UPDATING_USER_FAIL,
   UPDATING_USER_SUCCESS,
   FETCHING_USERS,
   FETCHING_USERS_FAIL,
-  FETCHING_USERS_SUCCESS,
+  FETCHING_USERS_SUCCESS
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -19,18 +20,20 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isUpdating: true
-      }
+      };
     case FETCHING_USERS:
       return {
         ...state,
         isFetching: true
-      }
+      };
     case UPDATING_USER_FAIL:
     case UPDATING_USER_SUCCESS:
-      return { ...state, isUpdating: false }
+      return { ...state, isUpdating: false };
     case FETCHING_USERS_FAIL:
     case FETCHING_USERS_SUCCESS:
-      return { ...state, isFetching: false, list: action.payload }
+      return { ...state, isFetching: false, list: action.payload };
+    case SIGNING_OUT:
+      return INITIAL_STATE;
     default:
       return state;
   }

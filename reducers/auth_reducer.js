@@ -28,7 +28,7 @@ export default (state = INITIAL_STATE, action) => {
       };
     case SIGNING_IN_FAIL:
     case SIGNING_OUT:
-      return INITIAL_STATE
+      return INITIAL_STATE;
     default:
       return state;
   }

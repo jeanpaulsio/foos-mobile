@@ -1,7 +1,8 @@
 import {
+  SIGNING_OUT,
   FETCHING_TEAMS,
   FETCHING_TEAMS_FAIL,
-  FETCHING_TEAMS_SUCCESS,
+  FETCHING_TEAMS_SUCCESS
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -15,14 +16,15 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isFetching: true
-      }
+      };
     case FETCHING_TEAMS_SUCCESS:
       return {
         isFetching: false,
         data: action.payload
-      }
+      };
+    case SIGNING_OUT:
     case FETCHING_TEAMS_FAIL:
-      return INITIAL_STATE
+      return INITIAL_STATE;
     default:
       return state;
   }
