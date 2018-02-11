@@ -1,4 +1,5 @@
 import {
+  SIGN_OUT,
   DISMISS_ERRORS,
   AUTHENTICATE,
   AUTHENTICATE_FAIL
@@ -14,6 +15,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return { ...state, authErrors: payload };
     case DISMISS_ERRORS:
     case AUTHENTICATE:
+    case SIGN_OUT:
     default:
       return INITIAL_STATE;
   }

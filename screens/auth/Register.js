@@ -1,96 +1,78 @@
 import React, { Component } from "react";
-import {
-  Text,
-  TextInput,
-  TouchableWithoutFeedback,
-  StyleSheet,
-  View
-} from "react-native";
+import { connect } from "react-redux";
+import { AsyncStorage, Image, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 
+import * as actions from "../../actions";
+import * as colors from "../../styles/colors";
+import { Button, Container, Center, Input } from "../../components";
 
 class Register extends Component {
   state = { handle: "", password: "" };
+
+  handleRegister = () => {
+
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Username"
-            placeholderTextColor="grey"
-            autoCapitalize="none"
-            value={this.state.handle}
-            onChangeText={handle => this.setState({ handle })}
-            style={styles.input}
-            returnKeyType="done"
-            blurOnSubmit
-            underlineColorAndroid={"transparent"}
+      <Container errorMessage={""}>
+        <Center>
+          <Image
+            style={styles.image}
+            // eslint-disable-next-line
+            source={require("../../assets/icon.png")}
           />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor="grey"
-            autoCapitalize="none"
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-            style={styles.input}
-            returnKeyType="done"
-            blurOnSubmit
-            secureTextEntry
-            underlineColorAndroid={"transparent"}
-          />
-        </View>
+        </Center>
 
-        <TouchableWithoutFeedback onPressIn={this.handleSignIn}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Register</Text>
-          </View>
-        </TouchableWithoutFeedback>
+        <Input
+          placeholder="Username"
+          value={this.state.handle}
+          bgColor={colors.BLACK}
+          borderColor={colors.BLACK}
+          textColor={colors.WHITE}
+          placeholderTextColor={colors.GREY}
+          onChangeText={handle => this.setState({ handle })}
+        />
 
-        <TouchableWithoutFeedback onPressIn={() => this.props.navigation.goBack()}>
-          <View style={[styles.button, { backgroundColor: "grey" }]}>
-            <Text style={styles.buttonText}>Go Back</Text>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
+        <Input
+          secureTextEntry
+          placeholder="Password"
+          value={this.state.password}
+          bgColor={colors.BLACK}
+          borderColor={colors.BLACK}
+          textColor={colors.WHITE}
+          placeholderTextColor={colors.GREY}
+          onChangeText={password => this.setState({ password })}
+        />
+
+        <Button
+          bgColor={colors.PRIMARY}
+          borderColor={colors.WHITE}
+          textColor={colors.WHITE}
+          handlePress={this.handleRegister}
+        >
+          Register
+        </Button>
+
+        <Button
+          bgColor={colors.GREY}
+          borderColor={colors.WHITE}
+          textColor={colors.WHITE}
+          handlePress={() => this.props.navigation.goBack()}
+        >
+          Go Back
+        </Button>
+      </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    marginTop: 20
-  },
-  inputContainer: {
-    borderRadius: 5,
-    borderWidth: 1,
-    marginVertical: 10,
-    backgroundColor: "black"
-  },
-  input: {
-    height: 42,
-    marginVertical: 3,
-    paddingHorizontal: 14,
-    fontSize: 16,
-    fontWeight: "600",
-    color: "white"
-  },
-  button: {
-    borderRadius: 5,
-    marginVertical: 10,
-    backgroundColor: "#1673ff",
-    height: 50
-  },
-  buttonText: {
-    alignSelf: "center",
-    fontSize: 16,
-    paddingVertical: 13,
-    fontWeight: "600",
-    color: "white"
+  image: {
+    width: 80,
+    height: 80
   }
 });
 
-export default Register;
+export default connect(null, actions)(Register);

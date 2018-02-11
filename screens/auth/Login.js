@@ -28,11 +28,15 @@ class Login extends Component {
   };
 
   render() {
+    const buttonIsDisabled =
+      this.state.handle.length === 0 || this.state.password.length === 0;
+
     return (
       <Container errorMessage={this.props.errors.authErrors}>
         <Center>
           <Image
             style={styles.image}
+            // eslint-disable-next-line
             source={require("../../assets/icon.png")}
           />
         </Center>
@@ -59,10 +63,11 @@ class Login extends Component {
         />
 
         <Button
-          bgColor={colors.PRIMARY}
+          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.PRIMARY}
           borderColor={colors.WHITE}
           textColor={colors.WHITE}
           handlePress={this.handleSignIn}
+          disabled={buttonIsDisabled}
         >
           Sign In
         </Button>
@@ -91,9 +96,10 @@ Login.propTypes = {
   authenticate: PropTypes.func,
   checkToken: PropTypes.func,
   navigateTo: PropTypes.func,
-  navigation: PropTypes.object
+  navigation: PropTypes.object,
+  errors: PropTypes.object
 };
 
-const mapStateToProps = ({ errors }) => ({ errors })
+const mapStateToProps = ({ errors }) => ({ errors });
 
 export default connect(mapStateToProps, actions)(Login);
