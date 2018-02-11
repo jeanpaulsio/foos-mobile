@@ -13,18 +13,21 @@ export const DISMISS_SUCCESS  = "DISMISS_SUCCESS";
 export const VALIDATING_TOKEN         = "VALIDATING_TOKEN";
 export const VALIDATING_TOKEN_FAIL    = "VALIDATING_TOKEN_FAIL";
 export const VALIDATING_TOKEN_SUCCESS = "VALIDATING_TOKEN_SUCCESS";
-export const SIGNING_IN         = "SIGNING_IN";
-export const SIGNING_IN_FAIL    = "SIGNING_IN_FAIL";
-export const SIGNING_IN_SUCCESS = "SIGNING_IN_SUCCESS";
-export const SIGNING_UP         = "SIGNING_UP";
-export const SIGNING_UP_FAIL    = "SIGNING_UP_FAIL";
-export const SIGNING_UP_SUCCESS = "SIGNING_UP_SUCCESS";
-export const SIGNING_OUT        = "SIGNING_OUT";
+export const SIGNING_IN               = "SIGNING_IN";
+export const SIGNING_IN_FAIL          = "SIGNING_IN_FAIL";
+export const SIGNING_IN_SUCCESS       = "SIGNING_IN_SUCCESS";
+export const SIGNING_UP               = "SIGNING_UP";
+export const SIGNING_UP_FAIL          = "SIGNING_UP_FAIL";
+export const SIGNING_UP_SUCCESS       = "SIGNING_UP_SUCCESS";
+export const SIGNING_OUT              = "SIGNING_OUT";
 
 // user
-export const UPDATING_USER         = "UPDATING_USER"
-export const UPDATING_USER_FAIL    = "UPDATING_USER_FAIL"
-export const UPDATING_USER_SUCCESS = "UPDATING_USER_SUCCESS"
+export const UPDATING_USER          = "UPDATING_USER"
+export const UPDATING_USER_FAIL     = "UPDATING_USER_FAIL"
+export const UPDATING_USER_SUCCESS  = "UPDATING_USER_SUCCESS"
+export const FETCHING_USERS         = "FETCHING_USERS"
+export const FETCHING_USERS_FAIL    = "FETCHING_USERS_FAIL"
+export const FETCHING_USERS_SUCCESS = "FETCHING_USERS_SUCCESS"
 
 // teams
 export const FETCHING_TEAMS         = "FETCHING_TEAMS";

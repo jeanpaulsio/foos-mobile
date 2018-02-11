@@ -11,6 +11,11 @@ import { Button, Container, Center, Input } from "../../components";
 class Register extends Component {
   state = { handle: "", password: "" };
 
+  fetchData = () => {
+    this.props.fetchTeams();
+    this.props.fetchUsers();
+  }
+
   handleRegister = () => {
     const params = {
       handle: this.state.handle,
@@ -18,7 +23,7 @@ class Register extends Component {
       password_confirmation: this.state.password
     };
 
-    this.props.signUp(params);
+    this.props.signUp(params, () => this.fetchData());
     this.setState({ handle: "", password: "" });
     Keyboard.dismiss();
   };
@@ -87,6 +92,8 @@ class Register extends Component {
 
 Register.propTypes = {
   signUp: PropTypes.func,
+  fetchTeams: PropTypes.func,
+  fetchUsers: PropTypes.func,
   navigateTo: PropTypes.func,
   navigation: PropTypes.object,
   errors: PropTypes.object

@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
   inputContainer: {
     borderWidth: 1,
     borderRadius: 25,
-    marginVertical: 10
+    margin: 10,
+    marginHorizontal: 20
   },
   input: {
     height: 42,

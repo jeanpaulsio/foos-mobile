@@ -16,12 +16,17 @@ class Login extends Component {
     this.state.forceSignOut && removeToken();
 
     const jwt = await AsyncStorage.getItem("jwt");
-    this.props.validateToken(jwt);
+    await this.props.validateToken(jwt, () => this.fetchData());
+  }
+
+  fetchData = () => {
+    this.props.fetchTeams();
+    this.props.fetchUsers();
   }
 
   handleSignIn = () => {
     const { handle, password } = this.state;
-    this.props.signIn({ handle, password });
+    this.props.signIn({ handle, password }, () => this.fetchData());
     this.setState({ handle: "", password: "" });
     Keyboard.dismiss();
   };
@@ -99,6 +104,8 @@ const styles = StyleSheet.create({
 Login.propTypes = {
   signIn: PropTypes.func,
   validateToken: PropTypes.func,
+  fetchTeams: PropTypes.func,
+  fetchUsers: PropTypes.func,
   navigateTo: PropTypes.func,
   navigation: PropTypes.object,
   errors: PropTypes.object

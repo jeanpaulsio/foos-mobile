@@ -73,7 +73,8 @@ Button.defaultProps = {
 const styles = StyleSheet.create({
   button: {
     borderRadius: 25,
-    marginVertical: 10,
+    margin: 10,
+    marginHorizontal: 20,
     borderWidth: 1
   },
   text: {

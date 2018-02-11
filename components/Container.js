@@ -17,7 +17,14 @@ const Container = props => {
       {!props.hideHeader && (
         <Header title={props.title} handlePress={props.handleNavigation} />
       )}
-      <View style={[styles.children, props.style]}>{props.children}</View>
+      <View
+        style={[
+          styles.children,
+          props.style,
+        ]}
+      >
+        {props.children}
+      </View>
     </View>
   );
 };
@@ -31,7 +38,7 @@ Container.propTypes = {
   style: PropTypes.object,
   title: PropTypes.string,
   handleNavigation: PropTypes.func,
-  hideHeader: PropTypes.bool
+  hideHeader: PropTypes.bool,
 };
 
 Container.defaultProps = {
@@ -45,8 +52,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   children: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
     flex: 1
   }
 });

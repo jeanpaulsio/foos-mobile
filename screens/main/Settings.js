@@ -30,7 +30,7 @@ class Settings extends Component {
     return (
       <Container
         bgColor={colors.WHITE}
-        style={{ paddingTop: 20 }}
+        style={{ paddingTop: 10 }}
         errorMessage={this.props.errors.user}
         successMessage={this.props.success.user}
         title="Settings"
