@@ -27,7 +27,11 @@ class Register extends Component {
     const buttonIsDisabled = someEmptyItems(handle, password);
 
     return (
-      <Container errorMessage={this.props.errors.registration} hideHeader>
+      <Container
+        bgColor={colors.WHITE}
+        errorMessage={this.props.errors.registration}
+        hideHeader
+      >
         <Center>
           <Image
             style={styles.image}
@@ -39,9 +43,9 @@ class Register extends Component {
         <Input
           placeholder="Username"
           value={this.state.handle}
-          bgColor={colors.TRANSPARENT}
+          bgColor={colors.GREY_DARK}
           borderColor={colors.GREY_DARK}
-          textColor={colors.GREY_DARK}
+          textColor={colors.WHITE}
           placeholderTextColor={colors.GREY}
           onChangeText={handle => this.setState({ handle })}
         />
@@ -50,26 +54,26 @@ class Register extends Component {
           secureTextEntry
           placeholder="Password"
           value={this.state.password}
-          bgColor={colors.TRANSPARENT}
+          bgColor={colors.GREY_DARK}
           borderColor={colors.GREY_DARK}
-          textColor={colors.GREY_DARK}
+          textColor={colors.WHITE}
           placeholderTextColor={colors.GREY}
           onChangeText={password => this.setState({ password })}
         />
 
         <Button
           disabled={buttonIsDisabled}
-          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.GREY_DARKEST}
-          borderColor={buttonIsDisabled ? colors.GREY_DARKEST : colors.WHITE}
-          textColor={buttonIsDisabled ? colors.GREY_DARKEST : colors.WHITE}
+          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.GREY_LIGHT}
+          borderColor={buttonIsDisabled ? colors.GREY_DARK : colors.GREY_DARKER}
+          textColor={buttonIsDisabled ? colors.GREY_DARK : colors.GREY_DARKEST}
           handlePress={this.handleRegister}
         >
           Register
         </Button>
 
         <Button
-          bgColor={colors.GREY}
-          borderColor={colors.WHITE}
+          bgColor={colors.GREY_DARK}
+          borderColor={colors.GREY_DARK}
           textColor={colors.WHITE}
           handlePress={() => this.props.navigation.goBack()}
         >
@@ -89,6 +93,7 @@ Register.propTypes = {
 
 const styles = StyleSheet.create({
   image: {
+    marginTop: 10,
     width: 80,
     height: 80
   }

@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import StatusBarPaddingIOS from "react-native-ios-status-bar-padding";
 
 import * as colors from "../styles/colors";
 import * as dimensions from "../styles/dimensions";
@@ -10,31 +15,32 @@ import * as dimensions from "../styles/dimensions";
 class Header extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <StatusBarPaddingIOS />
-        <View style={styles.textContainer}>
-          <TouchableOpacity
-            style={[styles.section, styles.sectionLeft]}
-            onPress={this.props.handlePress}
-          >
-            {this.props.handlePress && (
-              <Ionicons
-                name="md-arrow-round-back"
-                size={23}
-                color={colors.WHITE}
-              />
-            )}
-          </TouchableOpacity>
-          <View style={styles.section}>
-            <Text style={styles.text}>{this.props.title}</Text>
-          </View>
+      <SafeAreaView style={styles.safeView}>
+        <View style={styles.container}>
+          <View style={styles.textContainer}>
+            <TouchableOpacity
+              style={[styles.section, styles.sectionLeft]}
+              onPress={this.props.handlePress}
+            >
+              {this.props.handlePress && (
+                <Ionicons
+                  name="md-arrow-round-back"
+                  size={23}
+                  color={colors.WHITE}
+                />
+              )}
+            </TouchableOpacity>
+            <View style={styles.section}>
+              <Text style={styles.text}>{this.props.title}</Text>
+            </View>
 
-          <TouchableOpacity
-            style={[styles.section, styles.sectionRight]}
-            onPress={() => {}}
-          />
+            <TouchableOpacity
+              style={[styles.section, styles.sectionRight]}
+              onPress={() => {}}
+            />
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -45,10 +51,13 @@ Header.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  safeView: {
+    backgroundColor: colors.WHITE
+  },
   container: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.GREY_DARKER,
+    backgroundColor: colors.WHITE,
     borderBottomWidth: 0.5,
     borderBottomColor: colors.GREY_DARK
   },
@@ -74,7 +83,7 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   text: {
-    color: colors.GREY,
+    color: colors.GREY_DARK,
     fontSize: 18,
     fontWeight: "600"
   }

@@ -31,7 +31,7 @@ class Login extends Component {
 
     return (
       <Container
-        bgColor={colors.GREY_DARKEST}
+        bgColor={colors.WHITE}
         errorMessage={this.props.errors.auth}
         hideHeader
       >
@@ -39,15 +39,15 @@ class Login extends Component {
           <Image
             style={styles.image}
             // eslint-disable-next-line
-            source={require("../../assets/icon_white.png")}
+            source={require("../../assets/icon.png")}
           />
         </Center>
 
         <Input
           placeholder="Username"
           value={this.state.handle}
-          bgColor={colors.BLACK}
-          borderColor={colors.BLACK}
+          bgColor={colors.GREY_DARK}
+          borderColor={colors.GREY_DARK}
           textColor={colors.WHITE}
           placeholderTextColor={colors.GREY}
           onChangeText={handle => this.setState({ handle })}
@@ -57,8 +57,8 @@ class Login extends Component {
           secureTextEntry
           placeholder="Password"
           value={this.state.password}
-          bgColor={colors.BLACK}
-          borderColor={colors.BLACK}
+          bgColor={colors.GREY_DARK}
+          borderColor={colors.GREY_DARK}
           textColor={colors.WHITE}
           placeholderTextColor={colors.GREY}
           onChangeText={password => this.setState({ password })}
@@ -66,9 +66,9 @@ class Login extends Component {
 
         <Button
           disabled={buttonIsDisabled}
-          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.WHITE}
-          borderColor={buttonIsDisabled ? colors.WHITE : colors.GREY_DARKEST}
-          textColor={buttonIsDisabled ? colors.WHITE : colors.GREY_DARKEST}
+          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.GREY_LIGHT}
+          borderColor={buttonIsDisabled ? colors.GREY_DARK : colors.GREY_DARKER}
+          textColor={buttonIsDisabled ? colors.GREY_DARK : colors.GREY_DARKEST}
           handlePress={this.handleSignIn}
         >
           Sign In
@@ -89,6 +89,7 @@ class Login extends Component {
 
 const styles = StyleSheet.create({
   image: {
+    marginTop: 10,
     width: 80,
     height: 80
   }

@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View
+} from "react-native";
 import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import PropTypes from "prop-types";
@@ -13,40 +19,47 @@ class TabBar extends Component {
     const currentIndex = this.props.nav.routes[1].index;
     const tabs = [
       { index: 0, name: "Games", icon: "md-man", route: "games" },
-      { index: 1, name: "Leaderboard", icon: "md-trophy", route: "leaderboard" },
+      {
+        index: 1,
+        name: "Leaderboard",
+        icon: "md-trophy",
+        route: "leaderboard"
+      },
       { index: 2, name: "Teams", icon: "md-contacts", route: "teams" },
       { index: 3, name: "Settings", icon: "md-settings", route: "settings" }
     ];
 
     return (
-      <View style={styles.tabContainer}>
-        {tabs.map(tab => {
-          return (
-            <TouchableOpacity
-              key={tab.index}
-              style={styles.tab}
-              onPress={() => this.props.navigateTo(tab.route)}
-            >
-              <Ionicons
-                name={tab.icon}
-                size={26}
-                color={
-                  currentIndex === tab.index ? colors.WHITE : colors.GREY
-                }
-              />
-
-              <Text
-                style={[
-                  styles.tabText,
-                  currentIndex === tab.index && styles.tabTextSelected
-                ]}
+      <SafeAreaView style={styles.safeView}>
+        <View style={styles.tabContainer}>
+          {tabs.map(tab => {
+            return (
+              <TouchableOpacity
+                key={tab.index}
+                style={styles.tab}
+                onPress={() => this.props.navigateTo(tab.route)}
               >
-                {tab.name}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+                <Ionicons
+                  name={tab.icon}
+                  size={26}
+                  color={
+                    currentIndex === tab.index ? colors.WHITE : colors.GREY
+                  }
+                />
+
+                <Text
+                  style={[
+                    styles.tabText,
+                    currentIndex === tab.index && styles.tabTextSelected
+                  ]}
+                >
+                  {tab.name}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      </SafeAreaView>
     );
   }
 }
@@ -57,12 +70,15 @@ TabBar.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  safeView: {
+    backgroundColor: colors.GREY_DARK
+  },
   tabContainer: {
     width: dimensions.SCREEN_WIDTH,
     height: 60,
     backgroundColor: colors.GREY_DARK,
     flexDirection: "row",
-    borderTopWidth: .5,
+    borderTopWidth: 0.5,
     borderTopColor: colors.GREY
   },
   tab: {

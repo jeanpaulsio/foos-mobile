@@ -15,7 +15,7 @@ class Teams extends Component {
   render() {
     return (
       <Container
-        bgColor={colors.GREY_DARKEST}
+        bgColor={colors.WHITE}
         style={{ paddingTop: 20 }}
         title="Teams"
       >

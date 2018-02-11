@@ -28,7 +28,7 @@ class Settings extends Component {
 
     return (
       <Container
-        bgColor={colors.GREY_DARKEST}
+        bgColor={colors.WHITE}
         style={{ paddingTop: 20 }}
         errorMessage={this.props.errors.user}
         successMessage={this.props.success.user}
@@ -58,9 +58,9 @@ class Settings extends Component {
 
         <Button
           disabled={buttonIsDisabled}
-          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.WHITE}
-          borderColor={buttonIsDisabled ? colors.WHITE : colors.GREY_DARKEST}
-          textColor={buttonIsDisabled ? colors.WHITE : colors.GREY_DARKEST}
+          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.GREY_LIGHT}
+          borderColor={buttonIsDisabled ? colors.GREY_DARK : colors.GREY_DARKER}
+          textColor={buttonIsDisabled ? colors.GREY_DARK : colors.GREY_DARKEST}
           handlePress={this.handleUpdateProfile}
         >
           Update Password
