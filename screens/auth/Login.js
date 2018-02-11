@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
 import { Button, Container, Center, Input } from "../../components";
+import { someEmptyItems } from "../../lib/utils";
 import { forceSignOut } from "../../lib/auth_helpers";
 
 class Login extends Component {
@@ -28,8 +29,8 @@ class Login extends Component {
   };
 
   render() {
-    const buttonIsDisabled =
-      this.state.handle.length === 0 || this.state.password.length === 0;
+    const { handle, password } = this.state;
+    const buttonIsDisabled = someEmptyItems(handle, password)
 
     return (
       <Container errorMessage={this.props.errors.authErrors}>
@@ -64,8 +65,8 @@ class Login extends Component {
 
         <Button
           bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.PRIMARY}
-          borderColor={colors.WHITE}
-          textColor={colors.WHITE}
+          borderColor={buttonIsDisabled ? colors.PRIMARY :colors.WHITE}
+          textColor={buttonIsDisabled ? colors.PRIMARY :colors.WHITE}
           handlePress={this.handleSignIn}
           disabled={buttonIsDisabled}
         >
