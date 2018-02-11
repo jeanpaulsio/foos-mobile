@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WARNING
   },
   success: {
-    backgroundColor: colors.PRIMARY
+    backgroundColor: colors.BLACK
   }
 });
 

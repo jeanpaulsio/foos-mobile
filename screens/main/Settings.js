@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View } from "react-native";
+import { Keyboard, View } from "react-native";
 import PropTypes from "prop-types";
 
 import * as actions from "../../actions";
@@ -18,6 +18,7 @@ class Settings extends Component {
     };
     this.props.updateUser(params);
     this.setState({ oldPassword: "", password: "" });
+    Keyboard.dismiss();
   };
 
   handleSignOut = () => this.props.signOut();
@@ -38,8 +39,8 @@ class Settings extends Component {
           secureTextEntry
           placeholder="Current Password"
           value={this.state.oldPassword}
-          bgColor={colors.GREY_DARK}
-          borderColor={colors.GREY_DARK}
+          bgColor={colors.BLACK}
+          borderColor={colors.BLACK}
           textColor={colors.WHITE}
           placeholderTextColor={colors.GREY}
           onChangeText={oldPassword => this.setState({ oldPassword })}
@@ -49,8 +50,8 @@ class Settings extends Component {
           secureTextEntry
           placeholder="Update Password"
           value={this.state.password}
-          bgColor={colors.GREY_DARK}
-          borderColor={colors.GREY_DARK}
+          bgColor={colors.BLACK}
+          borderColor={colors.BLACK}
           textColor={colors.WHITE}
           placeholderTextColor={colors.GREY}
           onChangeText={password => this.setState({ password })}
@@ -58,9 +59,9 @@ class Settings extends Component {
 
         <Button
           disabled={buttonIsDisabled}
-          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.GREY_LIGHT}
-          borderColor={buttonIsDisabled ? colors.GREY_DARK : colors.GREY_DARKER}
-          textColor={buttonIsDisabled ? colors.GREY_DARK : colors.GREY_DARKEST}
+          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.GREY}
+          borderColor={buttonIsDisabled ? colors.BLACK : colors.GREY}
+          textColor={buttonIsDisabled ? colors.BLACK : colors.WHITE}
           handlePress={this.handleUpdateProfile}
         >
           Update Password
@@ -73,8 +74,8 @@ class Settings extends Component {
           }}
         >
           <Button
-            bgColor={colors.GREY_DARK}
-            borderColor={colors.GREY_DARK}
+            bgColor={colors.BLACK}
+            borderColor={colors.BLACK}
             textColor={colors.WHITE}
             handlePress={this.handleSignOut}
           >

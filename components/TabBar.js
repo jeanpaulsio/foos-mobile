@@ -71,12 +71,12 @@ TabBar.propTypes = {
 
 const styles = StyleSheet.create({
   safeView: {
-    backgroundColor: colors.GREY_DARK
+    backgroundColor: colors.BLACK
   },
   tabContainer: {
     width: dimensions.SCREEN_WIDTH,
     height: 60,
-    backgroundColor: colors.GREY_DARK,
+    backgroundColor: colors.BLACK,
     flexDirection: "row",
     borderTopWidth: 0.5,
     borderTopColor: colors.GREY

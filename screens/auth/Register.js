@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Image, StyleSheet } from "react-native";
+import { Image, Keyboard, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 
 import * as actions from "../../actions";
@@ -20,6 +20,7 @@ class Register extends Component {
 
     this.props.signUp(params);
     this.setState({ handle: "", password: "" });
+    Keyboard.dismiss();
   };
 
   render() {
@@ -43,8 +44,8 @@ class Register extends Component {
         <Input
           placeholder="Username"
           value={this.state.handle}
-          bgColor={colors.GREY_DARK}
-          borderColor={colors.GREY_DARK}
+          bgColor={colors.BLACK}
+          borderColor={colors.BLACK}
           textColor={colors.WHITE}
           placeholderTextColor={colors.GREY}
           onChangeText={handle => this.setState({ handle })}
@@ -54,8 +55,8 @@ class Register extends Component {
           secureTextEntry
           placeholder="Password"
           value={this.state.password}
-          bgColor={colors.GREY_DARK}
-          borderColor={colors.GREY_DARK}
+          bgColor={colors.BLACK}
+          borderColor={colors.BLACK}
           textColor={colors.WHITE}
           placeholderTextColor={colors.GREY}
           onChangeText={password => this.setState({ password })}
@@ -63,17 +64,17 @@ class Register extends Component {
 
         <Button
           disabled={buttonIsDisabled}
-          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.GREY_LIGHT}
-          borderColor={buttonIsDisabled ? colors.GREY_DARK : colors.GREY_DARKER}
-          textColor={buttonIsDisabled ? colors.GREY_DARK : colors.GREY_DARKEST}
+          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.GREY}
+          borderColor={buttonIsDisabled ? colors.BLACK : colors.GREY}
+          textColor={buttonIsDisabled ? colors.BLACK : colors.WHITE}
           handlePress={this.handleRegister}
         >
           Register
         </Button>
 
         <Button
-          bgColor={colors.GREY_DARK}
-          borderColor={colors.GREY_DARK}
+          bgColor={colors.BLACK}
+          borderColor={colors.BLACK}
           textColor={colors.WHITE}
           handlePress={() => this.props.navigation.goBack()}
         >

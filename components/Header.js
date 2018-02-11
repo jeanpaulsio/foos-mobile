@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.WHITE,
     borderBottomWidth: 0.5,
-    borderBottomColor: colors.GREY_DARK
+    borderBottomColor: colors.BLACK
   },
   textContainer: {
     width: dimensions.SCREEN_WIDTH,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   text: {
-    color: colors.GREY_DARK,
+    color: colors.BLACK,
     fontSize: 18,
     fontWeight: "600"
   }
