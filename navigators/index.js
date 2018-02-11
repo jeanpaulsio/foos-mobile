@@ -13,7 +13,7 @@ import Games from "../screens/main/Games";
 import Leaderboard from "../screens/main/Leaderboard";
 import Teams from "../screens/main/Teams";
 import Settings from "../screens/main/Settings";
-
+import { TabBar } from "../components";
 import { addListener } from "../middlewares/redux-navigation";
 
 export const AppNavigator = TabNavigator(
@@ -30,12 +30,24 @@ export const AppNavigator = TabNavigator(
       )
     },
     main: {
-      screen: TabNavigator({
-        games: { screen: Games },
-        leaderboard: { screen: Leaderboard },
-        teams: { screen: Teams },
-        settings: { screen: Settings }
-      })
+      screen: TabNavigator(
+        {
+          games: { screen: Games },
+          leaderboard: { screen: Leaderboard },
+          teams: { screen: Teams },
+          settings: { screen: Settings }
+        },
+        {
+          lazy: true,
+          animationEnabled: false,
+          swipeEnabled: false,
+          navigationOptions: {
+            tabBarVisible: true
+          },
+          tabBarComponent: TabBar,
+          tabBarPosition: "bottom"
+        }
+      )
     }
   },
   {
