@@ -12,26 +12,40 @@ import Register from "../screens/auth/Register";
 import Games from "../screens/main/Games";
 import Leaderboard from "../screens/main/Leaderboard";
 import Teams from "../screens/main/Teams";
+import Settings from "../screens/main/Settings";
 
 import { addListener } from "../middlewares/redux-navigation";
 
-export const AppNavigator = TabNavigator({
-  auth: {
-    screen: StackNavigator({
-      login: { screen: Login },
-      register: { screen: Register }
-    }, {
-      headerMode: "none"
-    })
+export const AppNavigator = TabNavigator(
+  {
+    auth: {
+      screen: StackNavigator(
+        {
+          login: { screen: Login },
+          register: { screen: Register }
+        },
+        {
+          headerMode: "none"
+        }
+      )
+    },
+    main: {
+      screen: TabNavigator({
+        games: { screen: Games },
+        leaderboard: { screen: Leaderboard },
+        teams: { screen: Teams },
+        settings: { screen: Settings }
+      })
+    }
   },
-  main: {
-    screen: TabNavigator({
-      games: { screen: Games },
-      leaderboard: { screen: Leaderboard },
-      teams: { screen: Teams }
-    })
+  {
+    lazy: true,
+    swipeEnabled: false,
+    navigationOptions: {
+      tabBarVisible: false
+    }
   }
-});
+);
 
 class AppWithNavigationState extends Component {
   static propTypes = {

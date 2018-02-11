@@ -1,50 +1,36 @@
 import axios from "axios";
-import { AsyncStorage } from "react-native";
 
+import { VALIDATING_TOKEN, SIGNING_IN, SIGNING_UP, SIGNING_OUT } from "./types";
+import { PING, USER_TOKEN, USER_REGISTRATION } from "../endpoints";
 import {
-  TOKEN_VALID,
-  TOKEN_INVALID,
-  AUTHENTICATE,
-  AUTHENTICATE_FAIL,
-  SIGN_OUT
-} from "./types";
-import { PING, USER_TOKEN } from "../endpoints";
-import { requestHeaders } from "../lib/auth_helpers";
+  generatePostBody,
+  requestHeaders,
+  removeToken
+} from "../lib/auth_helpers";
+import { dispatchHelper } from "../lib/action_helpers";
 
-export const checkToken = token => async dispatch => {
-  try {
-    const headers = requestHeaders(token);
-    await axios.get(PING, headers);
-
-    dispatch({ type: TOKEN_VALID });
-  } catch (e) {
-    dispatch({ type: TOKEN_INVALID });
-  }
+export const validateToken = token => () => {
+  const headers = requestHeaders(token);
+  const dispatching = dispatchHelper(VALIDATING_TOKEN);
+  const errorMessage = "Sign in to view this content";
+  dispatching(() => axios.get(PING, headers), errorMessage);
 };
 
-export const authenticate = (
-  { handle, password },
-  callback
-) => async dispatch => {
-  try {
-    const postParams = { auth: { handle, password } };
-    const { data } = await axios.post(USER_TOKEN, postParams);
-    const { jwt } = data;
-
-    AsyncStorage.setItem("jwt", jwt);
-    dispatch({ type: AUTHENTICATE, payload: data });
-    callback();
-  } catch (e) {
-    dispatch({
-      type: AUTHENTICATE_FAIL,
-      payload: "Double check your username and password"
-    });
-  }
+export const signIn = params => () => {
+  const postParams = generatePostBody("auth", params);
+  const dispatching = dispatchHelper(SIGNING_IN);
+  const errorMessage = "Double check your username and password";
+  dispatching(() => axios.post(USER_TOKEN, postParams), errorMessage);
 };
 
-export const signOut = (callback = () => {}) => async dispatch => {
-  await AsyncStorage.removeItem("jwt");
+export const signUp = params => () => {
+  const postParams = generatePostBody("user", params);
+  const dispatching = dispatchHelper(SIGNING_UP);
+  const errorMessage = "Something went wrong";
+  dispatching(() => axios.post(USER_REGISTRATION, postParams), errorMessage);
+};
 
-  dispatch({ type: SIGN_OUT });
-  callback();
+export const signOut = () => dispatch => {
+  removeToken();
+  dispatch({ type: SIGNING_OUT });
 };

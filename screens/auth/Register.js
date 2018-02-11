@@ -1,22 +1,33 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { AsyncStorage, Image, StyleSheet } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 
 import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
+import { someEmptyItems } from "../../lib/utils";
 import { Button, Container, Center, Input } from "../../components";
 
 class Register extends Component {
   state = { handle: "", password: "" };
 
   handleRegister = () => {
+    const params = {
+      handle: this.state.handle,
+      password: this.state.password,
+      password_confirmation: this.state.password
+    };
 
-  }
+    this.props.signUp(params);
+    this.setState({ handle: "", password: "" });
+  };
 
   render() {
+    const { handle, password } = this.state;
+    const buttonIsDisabled = someEmptyItems(handle, password);
+
     return (
-      <Container errorMessage={""}>
+      <Container errorMessage={this.props.errors.registrationErrors}>
         <Center>
           <Image
             style={styles.image}
@@ -47,9 +58,10 @@ class Register extends Component {
         />
 
         <Button
-          bgColor={colors.PRIMARY}
-          borderColor={colors.WHITE}
-          textColor={colors.WHITE}
+          disabled={buttonIsDisabled}
+          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.PRIMARY}
+          borderColor={buttonIsDisabled ? colors.PRIMARY : colors.WHITE}
+          textColor={buttonIsDisabled ? colors.PRIMARY : colors.WHITE}
           handlePress={this.handleRegister}
         >
           Register
@@ -68,6 +80,13 @@ class Register extends Component {
   }
 }
 
+Register.propTypes = {
+  signUp: PropTypes.func,
+  navigateTo: PropTypes.func,
+  navigation: PropTypes.object,
+  errors: PropTypes.object
+};
+
 const styles = StyleSheet.create({
   image: {
     width: 80,
@@ -75,4 +94,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(null, actions)(Register);
+const mapStateToProps = ({ errors }) => ({ errors });
+
+export default connect(mapStateToProps, actions)(Register);

@@ -7,30 +7,27 @@ import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
 import { Button, Container, Center, Input } from "../../components";
 import { someEmptyItems } from "../../lib/utils";
-import { forceSignOut } from "../../lib/auth_helpers";
+import { removeToken } from "../../lib/auth_helpers";
 
 class Login extends Component {
-  state = { handle: "", password: "", forceSignOut: true };
+  state = { handle: "", password: "", forceSignOut: false };
 
   async componentDidMount() {
-    this.state.forceSignOut && forceSignOut();
+    this.state.forceSignOut && removeToken();
 
     const jwt = await AsyncStorage.getItem("jwt");
-    await this.props.checkToken(jwt);
-
-    jwt && this.props.navigateTo("main");
+    this.props.validateToken(jwt);
   }
 
   handleSignIn = () => {
     const { handle, password } = this.state;
-    this.props.authenticate({ handle, password }, () => {
-      this.props.navigateTo("main");
-    });
+    this.props.signIn({ handle, password });
+    this.setState({ handle: "", password: "" });
   };
 
   render() {
     const { handle, password } = this.state;
-    const buttonIsDisabled = someEmptyItems(handle, password)
+    const buttonIsDisabled = someEmptyItems(handle, password);
 
     return (
       <Container errorMessage={this.props.errors.authErrors}>
@@ -64,11 +61,11 @@ class Login extends Component {
         />
 
         <Button
-          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.PRIMARY}
-          borderColor={buttonIsDisabled ? colors.PRIMARY :colors.WHITE}
-          textColor={buttonIsDisabled ? colors.PRIMARY :colors.WHITE}
-          handlePress={this.handleSignIn}
           disabled={buttonIsDisabled}
+          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.PRIMARY}
+          borderColor={buttonIsDisabled ? colors.PRIMARY : colors.WHITE}
+          textColor={buttonIsDisabled ? colors.PRIMARY : colors.WHITE}
+          handlePress={this.handleSignIn}
         >
           Sign In
         </Button>
@@ -94,8 +91,8 @@ const styles = StyleSheet.create({
 });
 
 Login.propTypes = {
-  authenticate: PropTypes.func,
-  checkToken: PropTypes.func,
+  signIn: PropTypes.func,
+  validateToken: PropTypes.func,
   navigateTo: PropTypes.func,
   navigation: PropTypes.object,
   errors: PropTypes.object
