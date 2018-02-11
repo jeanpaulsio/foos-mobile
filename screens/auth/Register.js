@@ -27,7 +27,7 @@ class Register extends Component {
     const buttonIsDisabled = someEmptyItems(handle, password);
 
     return (
-      <Container errorMessage={this.props.errors.registration}>
+      <Container errorMessage={this.props.errors.registration} hideHeader>
         <Center>
           <Image
             style={styles.image}

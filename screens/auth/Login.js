@@ -33,6 +33,7 @@ class Login extends Component {
       <Container
         bgColor={colors.GREY_DARKEST}
         errorMessage={this.props.errors.auth}
+        hideHeader
       >
         <Center>
           <Image

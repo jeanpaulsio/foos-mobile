@@ -14,7 +14,9 @@ const Container = props => {
     >
       <Alert warning message={props.errorMessage} />
       <Alert success message={props.successMessage} />
-      <Header title={props.title} handlePress={props.handleNavigation} />
+      {!props.hideHeader && (
+        <Header title={props.title} handlePress={props.handleNavigation} />
+      )}
       <View style={[styles.children, props.style]}>{props.children}</View>
     </View>
   );
@@ -28,7 +30,8 @@ Container.propTypes = {
   bgColor: PropTypes.string,
   style: PropTypes.object,
   title: PropTypes.string,
-  handleNavigation: PropTypes.func
+  handleNavigation: PropTypes.func,
+  hideHeader: PropTypes.bool
 };
 
 Container.defaultProps = {
