@@ -4127,6 +4127,12 @@ react-native-gesture-handler@1.0.0-alpha.39:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-ios-status-bar-padding@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-ios-status-bar-padding/-/react-native-ios-status-bar-padding-1.2.0.tgz#6790e8c6811ab542686707ba49a2dd4218a19565"
+  dependencies:
+    react-native-status-bar-size "^0.3.2"
+
 react-native-maps@0.19.0:
   version "0.19.0"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.19.0.tgz#ce94fad1cf360e335cb4338a68c95f791e869074"
@@ -4136,6 +4142,10 @@ react-native-safe-module@^1.1.0:
   resolved "https://registry.yarnpkg.com/react-native-safe-module/-/react-native-safe-module-1.2.0.tgz#a23824ca24edc2901913694a76646475113d570d"
   dependencies:
     dedent "^0.6.0"
+
+react-native-status-bar-size@^0.3.2:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/react-native-status-bar-size/-/react-native-status-bar-size-0.3.3.tgz#009ea83f0d0a7a849bcb7cf3da9f0b8f9e048a1f"
 
 "react-native-svg@https://github.com/expo/react-native-svg/archive/5.5.1-exp.1.tar.gz":
   version "5.5.1"

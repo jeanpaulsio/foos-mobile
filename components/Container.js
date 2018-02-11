@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import PropTypes from "prop-types";
 
-import { Alert } from "../components";
+import { Alert, Header } from "../components";
 
 const Container = props => {
   return (
@@ -14,6 +14,7 @@ const Container = props => {
     >
       <Alert warning message={props.errorMessage} />
       <Alert success message={props.successMessage} />
+      <Header title={props.title} handlePress={props.handleNavigation} />
       <View style={[styles.children, props.style]}>{props.children}</View>
     </View>
   );
@@ -25,7 +26,9 @@ Container.propTypes = {
   successMessage: PropTypes.string.isRequired,
   padding: PropTypes.bool,
   bgColor: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object,
+  title: PropTypes.string,
+  handleNavigation: PropTypes.func
 };
 
 Container.defaultProps = {
@@ -40,7 +43,8 @@ const styles = StyleSheet.create({
   },
   children: {
     paddingHorizontal: 20,
-    paddingVertical: 10
+    paddingVertical: 10,
+    flex: 1
   }
 });
 

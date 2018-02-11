@@ -39,9 +39,9 @@ class Register extends Component {
         <Input
           placeholder="Username"
           value={this.state.handle}
-          bgColor={colors.BLACK}
-          borderColor={colors.BLACK}
-          textColor={colors.WHITE}
+          bgColor={colors.TRANSPARENT}
+          borderColor={colors.GREY_DARK}
+          textColor={colors.GREY_DARK}
           placeholderTextColor={colors.GREY}
           onChangeText={handle => this.setState({ handle })}
         />
@@ -50,18 +50,18 @@ class Register extends Component {
           secureTextEntry
           placeholder="Password"
           value={this.state.password}
-          bgColor={colors.BLACK}
-          borderColor={colors.BLACK}
-          textColor={colors.WHITE}
+          bgColor={colors.TRANSPARENT}
+          borderColor={colors.GREY_DARK}
+          textColor={colors.GREY_DARK}
           placeholderTextColor={colors.GREY}
           onChangeText={password => this.setState({ password })}
         />
 
         <Button
           disabled={buttonIsDisabled}
-          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.PRIMARY}
-          borderColor={buttonIsDisabled ? colors.PRIMARY : colors.WHITE}
-          textColor={buttonIsDisabled ? colors.PRIMARY : colors.WHITE}
+          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.GREY_DARKEST}
+          borderColor={buttonIsDisabled ? colors.GREY_DARKEST : colors.WHITE}
+          textColor={buttonIsDisabled ? colors.GREY_DARKEST : colors.WHITE}
           handlePress={this.handleRegister}
         >
           Register

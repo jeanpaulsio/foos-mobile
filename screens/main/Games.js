@@ -1,17 +1,25 @@
-import React, { Component } from "react"
-import { Text, View } from "react-native";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Text } from "react-native";
 
-import  { TabBar } from "../../components";
+import * as actions from "../../actions";
+import * as colors from "../../styles/colors";
+import { Container } from "../../components";
 
-class Games extends Component {
+class Teams extends Component {
   render() {
     return (
-      <View>
+      <Container
+        bgColor={colors.GREY_DARKEST}
+        style={{ paddingTop: 20 }}
+        title="Games"
+      >
         <Text>Games</Text>
-      </View>
+      </Container>
     );
   }
 }
 
-export default Games;
+
+export default connect(null, actions)(Teams);

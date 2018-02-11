@@ -1,15 +1,25 @@
-import React, { Component } from "react"
-import { Text, View } from "react-native";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Text } from "react-native";
 
-class Leaderboard extends Component {
+import * as actions from "../../actions";
+import * as colors from "../../styles/colors";
+import { Container } from "../../components";
+
+class Teams extends Component {
   render() {
     return (
-      <View>
+      <Container
+        bgColor={colors.GREY_DARKEST}
+        style={{ paddingTop: 20 }}
+        title="Leaderboard"
+      >
         <Text>Leaderboard</Text>
-      </View>
+      </Container>
     );
   }
 }
 
-export default Leaderboard;
+
+export default connect(null, actions)(Teams);

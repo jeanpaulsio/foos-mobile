@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import PropTypes from "prop-types";
 
 import * as actions from "../../actions";
@@ -28,16 +28,18 @@ class Settings extends Component {
 
     return (
       <Container
+        bgColor={colors.GREY_DARKEST}
         style={{ paddingTop: 20 }}
         errorMessage={this.props.errors.user}
         successMessage={this.props.success.user}
+        title="Settings"
       >
         <Input
           secureTextEntry
           placeholder="Current Password"
           value={this.state.oldPassword}
-          bgColor={colors.BLACK}
-          borderColor={colors.BLACK}
+          bgColor={colors.GREY_DARK}
+          borderColor={colors.GREY_DARK}
           textColor={colors.WHITE}
           placeholderTextColor={colors.GREY}
           onChangeText={oldPassword => this.setState({ oldPassword })}
@@ -47,8 +49,8 @@ class Settings extends Component {
           secureTextEntry
           placeholder="Update Password"
           value={this.state.password}
-          bgColor={colors.BLACK}
-          borderColor={colors.BLACK}
+          bgColor={colors.GREY_DARK}
+          borderColor={colors.GREY_DARK}
           textColor={colors.WHITE}
           placeholderTextColor={colors.GREY}
           onChangeText={password => this.setState({ password })}
@@ -56,22 +58,29 @@ class Settings extends Component {
 
         <Button
           disabled={buttonIsDisabled}
-          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.PRIMARY}
-          borderColor={buttonIsDisabled ? colors.PRIMARY : colors.WHITE}
-          textColor={buttonIsDisabled ? colors.PRIMARY : colors.WHITE}
+          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.WHITE}
+          borderColor={buttonIsDisabled ? colors.WHITE : colors.GREY_DARKEST}
+          textColor={buttonIsDisabled ? colors.WHITE : colors.GREY_DARKEST}
           handlePress={this.handleUpdateProfile}
         >
           Update Password
         </Button>
 
-        <Button
-          bgColor={colors.TRANSPARENT}
-          borderColor={colors.PRIMARY}
-          textColor={colors.PRIMARY}
-          handlePress={this.handleSignOut}
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "flex-end"
+          }}
         >
-          Sign Out
-        </Button>
+          <Button
+            bgColor={colors.GREY_DARK}
+            borderColor={colors.GREY_DARK}
+            textColor={colors.WHITE}
+            handlePress={this.handleSignOut}
+          >
+            Sign Out
+          </Button>
+        </View>
       </Container>
     );
   }

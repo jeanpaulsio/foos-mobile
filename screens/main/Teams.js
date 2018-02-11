@@ -1,15 +1,29 @@
-import React, { Component } from "react"
-import { Text, View } from "react-native";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Text } from "react-native";
+
+import * as actions from "../../actions";
+import * as colors from "../../styles/colors";
+import { Container } from "../../components";
 
 class Teams extends Component {
+  componentDidMount() {
+    this.props.fetchTeams()
+  }
+
   render() {
     return (
-      <View>
+      <Container
+        bgColor={colors.GREY_DARKEST}
+        style={{ paddingTop: 20 }}
+        title="Teams"
+      >
         <Text>Teams</Text>
-      </View>
+      </Container>
     );
   }
 }
 
-export default Teams;
+
+export default connect(null, actions)(Teams);

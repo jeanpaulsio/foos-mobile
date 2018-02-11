@@ -13,7 +13,7 @@ class TabBar extends Component {
     const currentIndex = this.props.nav.routes[1].index;
     const tabs = [
       { index: 0, name: "Games", icon: "md-man", route: "games" },
-      { index: 1, name: "Leaderboard", icon: "md-list", route: "leaderboard" },
+      { index: 1, name: "Leaderboard", icon: "md-trophy", route: "leaderboard" },
       { index: 2, name: "Teams", icon: "md-contacts", route: "teams" },
       { index: 3, name: "Settings", icon: "md-settings", route: "settings" }
     ];
@@ -31,7 +31,7 @@ class TabBar extends Component {
                 name={tab.icon}
                 size={26}
                 color={
-                  currentIndex === tab.index ? colors.PRIMARY : colors.GREY
+                  currentIndex === tab.index ? colors.WHITE : colors.GREY
                 }
               />
 
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   tabContainer: {
     width: dimensions.SCREEN_WIDTH,
     height: 60,
-    backgroundColor: colors.WHITE,
+    backgroundColor: colors.GREY_DARK,
     flexDirection: "row",
     borderTopWidth: .5,
     borderTopColor: colors.GREY
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     color: colors.GREY
   },
   tabTextSelected: {
-    color: colors.PRIMARY
+    color: colors.WHITE
   }
 });
 

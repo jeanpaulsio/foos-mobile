@@ -30,12 +30,15 @@ class Login extends Component {
     const buttonIsDisabled = someEmptyItems(handle, password);
 
     return (
-      <Container errorMessage={this.props.errors.auth}>
+      <Container
+        bgColor={colors.GREY_DARKEST}
+        errorMessage={this.props.errors.auth}
+      >
         <Center>
           <Image
             style={styles.image}
             // eslint-disable-next-line
-            source={require("../../assets/icon.png")}
+            source={require("../../assets/icon_white.png")}
           />
         </Center>
 
@@ -62,17 +65,17 @@ class Login extends Component {
 
         <Button
           disabled={buttonIsDisabled}
-          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.PRIMARY}
-          borderColor={buttonIsDisabled ? colors.PRIMARY : colors.WHITE}
-          textColor={buttonIsDisabled ? colors.PRIMARY : colors.WHITE}
+          bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.WHITE}
+          borderColor={buttonIsDisabled ? colors.WHITE : colors.GREY_DARKEST}
+          textColor={buttonIsDisabled ? colors.WHITE : colors.GREY_DARKEST}
           handlePress={this.handleSignIn}
         >
           Sign In
         </Button>
 
         <Button
-          bgColor={colors.GREY}
-          borderColor={colors.WHITE}
+          bgColor={colors.GREY_DARK}
+          borderColor={colors.GREY_DARK}
           textColor={colors.WHITE}
           handlePress={() => this.props.navigation.navigate("register")}
         >

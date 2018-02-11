@@ -7,8 +7,8 @@
     "lodash": "^4.17.5",
     "prop-types": "^15.6.0",
     "react": "16.2.0",
-    "react-native":
-      "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
+    "react-native-ios-status-bar-padding": "^1.2.0",
     "react-navigation": "^1.0.0-beta.29",
     "react-navigation-redux-helpers": "^1.0.1",
     "react-redux": "^5.0.6",

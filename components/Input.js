@@ -62,7 +62,7 @@ Input.defaultProps = {
 const styles = StyleSheet.create({
   inputContainer: {
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 25,
     marginVertical: 10
   },
   input: {

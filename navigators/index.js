@@ -38,7 +38,6 @@ export const AppNavigator = TabNavigator(
           settings: { screen: Settings }
         },
         {
-          lazy: true,
           animationEnabled: false,
           swipeEnabled: false,
           navigationOptions: {
@@ -51,7 +50,6 @@ export const AppNavigator = TabNavigator(
     }
   },
   {
-    lazy: true,
     swipeEnabled: false,
     navigationOptions: {
       tabBarVisible: false
