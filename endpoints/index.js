@@ -1,4 +1,4 @@
-const PROD_URL = "https://foos-api.herokuapp.com/api";
+// const PROD_URL = "https://foos-api.herokuapp.com/api";
 const DEV_URL = "http://localhost:3000/api";
 const BASE_URL = DEV_URL;
 const VERSION = "v1"

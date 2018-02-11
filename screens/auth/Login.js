@@ -1,28 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  AsyncStorage,
-  Text,
-  TextInput,
-  TouchableWithoutFeedback,
-  StyleSheet,
-  View
-} from "react-native";
+import { AsyncStorage, Image, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 
 import * as actions from "../../actions";
+import * as colors from "../../styles/colors";
+import { Button, Container, Center, Input } from "../../components";
 
 class Login extends Component {
-  state = { handle: "jp", password: "foobar" };
+  state = { handle: "", password: "" };
 
   async componentDidMount() {
-    // await AsyncStorage.removeItem("jwt");
-    // if jwt
-    //    test jwt to see if it is expired
-    //      if its not expired, redirect to "main"
-    //      else load login screen
-    // else
-    //    load login screen
+    await AsyncStorage.removeItem("jwt");
+
     const jwt = await AsyncStorage.getItem("jwt");
     await this.props.checkToken(jwt);
 
@@ -34,76 +24,75 @@ class Login extends Component {
   handleSignIn = () => {
     const { handle, password } = this.state;
     this.props.authenticate({ handle, password }, () => {
-      this.props.navigateTo("main")
+      this.props.navigateTo("main");
     });
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Login Screen</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            value={this.state.handle}
-            onChangeText={handle => this.setState({ handle })}
-            style={styles.input}
-            returnKeyType="done"
-            blurOnSubmit
-            underlineColorAndroid={"transparent"}
+      <Container padding>
+        <Center>
+          <Image
+            style={styles.image}
+            source={require("../../assets/icon.png")}
           />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-            style={styles.input}
-            returnKeyType="done"
-            blurOnSubmit
-            underlineColorAndroid={"transparent"}
-          />
-        </View>
+        </Center>
 
-        <TouchableWithoutFeedback onPressIn={this.handleSignIn}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Sign In</Text>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
+        <Input
+          placeholder="Username"
+          value={this.state.handle}
+          bgColor={colors.BLACK}
+          borderColor={colors.BLACK}
+          textColor={colors.WHITE}
+          placeholderTextColor={colors.GREY}
+          onChangeText={handle => this.setState({ handle })}
+        />
+
+        <Input
+          secureTextEntry
+          placeholder="Password"
+          value={this.state.password}
+          bgColor={colors.BLACK}
+          borderColor={colors.BLACK}
+          textColor={colors.WHITE}
+          placeholderTextColor={colors.GREY}
+          onChangeText={password => this.setState({ password })}
+        />
+
+        <Button
+          bgColor={colors.PRIMARY}
+          borderColor={colors.WHITE}
+          textColor={colors.WHITE}
+          handlePress={this.handleSignIn}
+        >
+          Sign In
+        </Button>
+
+        <Button
+          bgColor={colors.GREY}
+          borderColor={colors.WHITE}
+          textColor={colors.WHITE}
+          handlePress={() => this.props.navigation.navigate("register")}
+        >
+          Register
+        </Button>
+      </Container>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    flex: 1
-  },
-  inputContainer: {
-    borderWidth: 1,
-    borderRadius: 10,
-    marginVertical: 10
-  },
-  input: {
-    height: 42,
-    marginVertical: 3,
-    paddingHorizontal: 14,
-    fontSize: 16,
-    fontWeight: "600"
-  },
-  button: {
-    borderRadius: 10,
-    marginVertical: 10,
-    borderWidth: 1,
-    backgroundColor: "grey",
-    height: 50
-  },
-  buttonText: {
-    color: "white"
+  image: {
+    width: 80,
+    height: 80
   }
 });
 
 Login.propTypes = {
-  authenticate: PropTypes.func
+  authenticate: PropTypes.func,
+  checkToken: PropTypes.func,
+  navigateTo: PropTypes.func,
+  navigation: PropTypes.object
 };
 
 export default connect(null, actions)(Login);
