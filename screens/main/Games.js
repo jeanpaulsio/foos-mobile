@@ -1,13 +1,36 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Text } from "react-native";
+import {
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+  Modal,
+  TouchableOpacity
+} from "react-native";
 
 import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
-import { Container } from "../../components";
+import * as dimensions from "../../styles/dimensions";
+import { Button, Container } from "../../components";
 
 class Teams extends Component {
+  state = { gameModalVisible: false };
+
+  openGameModal = () => {
+    this.setState({ gameModalVisible: true });
+  };
+
+  closeGameModal = () => {
+    this.setState({ gameModalVisible: false });
+  };
+
+  handleSelectTeam = () => {}
+
+  handleAddGame = () => {};
+
   render() {
     return (
       <Container
@@ -15,11 +38,101 @@ class Teams extends Component {
         style={{ paddingTop: 20 }}
         title="Games"
       >
-        <Text>Games</Text>
+        <Modal
+          visible={this.state.gameModalVisible}
+          animationType={"slide"}
+          onRequestClose={() => this.closeGameModal()}
+        >
+          <SafeAreaView style={styles.modalContainer}>
+            <ScrollView style={styles.modalContainer}>
+              <View style={styles.innerContainer}>
+                {this.props.teams.data.map(team => {
+                  return (
+                    <TouchableOpacity
+                      style={[
+                        styles.listItemContainer
+                      ]}
+                      key={team.id}
+                      onPress={this.handleSelectTeam.bind(this, team.id)}
+                    >
+                      <Text style={styles.listItem}>{team.team_name}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </ScrollView>
+            <Button
+              bgColor={colors.BLACK}
+              borderColor={colors.BLACK}
+              textColor={colors.WHITE}
+              handlePress={this.handleAddGame}
+            >
+              Add Game
+            </Button>
+
+            <Button
+              bgColor={colors.BLACK}
+              borderColor={colors.BLACK}
+              textColor={colors.WHITE}
+              handlePress={this.closeGameModal}
+            >
+              Close
+            </Button>
+          </SafeAreaView>
+        </Modal>
+
+        <ScrollView>
+          {this.props.games.data.map(game => {
+            return (
+              <View
+                style={{ borderBottomWidth: 0.5, paddingVertical: 10 }}
+                key={game.id}
+              >
+                <Text style={{ fontWeight: "600" }}>
+                  Winner: {game.winning_team}
+                </Text>
+                <Text>Loser: {game.losing_team}</Text>
+              </View>
+            );
+          })}
+        </ScrollView>
+        <Button
+          bgColor={colors.BLACK}
+          borderColor={colors.BLACK}
+          textColor={colors.WHITE}
+          handlePress={this.openGameModal}
+        >
+          Add Game
+        </Button>
       </Container>
     );
   }
 }
 
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    height: dimensions.SCREEN_HEIGHT
+  },
+  innerContainer: {
+    flex: 1
+  },
+  scrollContainer: {
+    margin: 0,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    width: dimensions.SCREEN_WIDTH
+  },
+  listItemContainer: {
+    paddingVertical: 10,
+    borderBottomWidth: 0.5
+  },
+  listItem: {
+    fontSize: 16,
+    fontWeight: "600"
+  }
+});
 
-export default connect(null, actions)(Teams);
+const mapStateToProps = ({ games, teams }) => ({ games, teams });
+
+export default connect(mapStateToProps, actions)(Teams);
