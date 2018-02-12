@@ -8,3 +8,4 @@ export const USER_TOKEN = `${BASE_URL}/${VERSION}/user_token`
 export const USERS      = `${BASE_URL}/${VERSION}/users`
 export const USER       = `${BASE_URL}/${VERSION}/user`
 export const TEAMS      = `${BASE_URL}/${VERSION}/teams`
+export const GAMES      = `${BASE_URL}/${VERSION}/games`

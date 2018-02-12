@@ -22,6 +22,7 @@ class Login extends Component {
   fetchData = () => {
     this.props.fetchTeams();
     this.props.fetchUsers();
+    this.props.fetchGames();
   }
 
   handleSignIn = () => {
@@ -106,6 +107,7 @@ Login.propTypes = {
   validateToken: PropTypes.func,
   fetchTeams: PropTypes.func,
   fetchUsers: PropTypes.func,
+  fetchGames: PropTypes.func,
   navigateTo: PropTypes.func,
   navigation: PropTypes.object,
   errors: PropTypes.object

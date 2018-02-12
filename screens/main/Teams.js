@@ -17,7 +17,7 @@ import * as dimensions from "../../styles/dimensions";
 import { Button, Container } from "../../components";
 
 class Teams extends Component {
-  state = { userModalVisible: true, playerIds: [], users: [] };
+  state = { userModalVisible: false, playerIds: [], users: [] };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.user.list !== nextProps.user.list) {
@@ -26,11 +26,11 @@ class Teams extends Component {
   }
 
   openUserModal = () => {
-    this.setState({ userModalVisible: true });
+    this.setState({ userModalVisible: true, playerIds: [] });
   };
 
   closeUserModal = () => {
-    this.setState({ userModalVisible: false });
+    this.setState({ userModalVisible: false, playerIds: [] });
   };
 
   handleSelectPlayer = id => {
@@ -48,10 +48,11 @@ class Teams extends Component {
     }
   };
 
-  handleAddTeam = () => {
+  handleAddTeam = async () => {
     const [captain_id, player_id] = this.state.playerIds
 
-    console.log("team of:", captain_id, player_id);
+    await this.props.createTeam({ captain_id, player_id })
+    this.closeUserModal();
   };
 
   findAvailablePairs = (firstPlayerId, users, teams) => {
