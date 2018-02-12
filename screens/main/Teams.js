@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Modal, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
 
 import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
@@ -9,22 +17,73 @@ import * as dimensions from "../../styles/dimensions";
 import { Button, Container } from "../../components";
 
 class Teams extends Component {
-  state = { userModalVisible: false };
+  state = { userModalVisible: true, playerIds: [], users: [] };
 
-  componentDidMount() {
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user.list !== nextProps.user.list) {
+      this.setState({ users: nextProps.user.list });
+    }
   }
 
   openUserModal = () => {
     this.setState({ userModalVisible: true });
-  }
+  };
 
   closeUserModal = () => {
     this.setState({ userModalVisible: false });
-  }
+  };
 
-  handleAddTeam = () => {};
+  handleSelectPlayer = id => {
+    if (this.state.playerIds.length < 2) {
+      this.setState({ playerIds: this.state.playerIds.concat(id) });
+    }
+
+    if (this.state.playerIds.includes(id)) {
+      const index = this.state.playerIds.findIndex(ids => ids === id);
+      const playerIds = [
+        ...this.state.playerIds.slice(0, index),
+        ...this.state.playerIds.slice(index + 1)
+      ];
+      this.setState({ playerIds });
+    }
+  };
+
+  handleAddTeam = () => {
+    const [captain_id, player_id] = this.state.playerIds
+
+    console.log("team of:", captain_id, player_id);
+  };
+
+  findAvailablePairs = (firstPlayerId, users, teams) => {
+    const unavailablePairs = teams.filter(item => {
+      return (
+        item.captain_id === firstPlayerId || item.player_id === firstPlayerId
+      );
+    });
+
+    let unavailableIds = [];
+
+    unavailablePairs.forEach(pair => {
+      unavailableIds.push(pair.captain_id);
+      unavailableIds.push(pair.player_id);
+    });
+
+    unavailableIds = unavailableIds.filter(id => id !== firstPlayerId)
+
+    let availableUsers = users.filter(user => {
+      return !unavailableIds.includes(user.id);
+    });
+
+    return availableUsers
+  };
 
   render() {
+    const filteredUsers = this.findAvailablePairs(
+      this.state.playerIds[0],
+      this.state.users,
+      this.props.teams.data
+    );
+
     return (
       <Container title="Teams">
         <Modal
@@ -32,19 +91,49 @@ class Teams extends Component {
           animationType={"slide"}
           onRequestClose={() => this.closeUserModal()}
         >
-          <ScrollView style={styles.modalContainer}>
-            <View style={styles.innerContainer}>
-              <Text>This is content inside of modal component</Text>
-              <Button
-                bgColor={colors.BLACK}
-                borderColor={colors.BLACK}
-                textColor={colors.WHITE}
-                handlePress={this.closeUserModal}
-              >
-                Close
-              </Button>
-            </View>
-          </ScrollView>
+          <SafeAreaView style={styles.modalContainer}>
+            <ScrollView style={styles.modalContainer}>
+              <View style={styles.innerContainer}>
+                {filteredUsers.map(user => {
+                  return (
+                    <TouchableOpacity
+                      style={[
+                        styles.listItemContainer,
+                        {
+                          backgroundColor: this.state.playerIds.includes(
+                            user.id
+                          )
+                            ? "red"
+                            : "white"
+                        }
+                      ]}
+                      key={user.id}
+                      onPress={this.handleSelectPlayer.bind(this, user.id)}
+                    >
+                      <Text style={styles.listItem}>{user.handle}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </ScrollView>
+            <Button
+              bgColor={colors.BLACK}
+              borderColor={colors.BLACK}
+              textColor={colors.WHITE}
+              handlePress={this.handleAddTeam}
+            >
+              Add Team
+            </Button>
+
+            <Button
+              bgColor={colors.BLACK}
+              borderColor={colors.BLACK}
+              textColor={colors.WHITE}
+              handlePress={this.closeUserModal}
+            >
+              Close
+            </Button>
+          </SafeAreaView>
         </Modal>
 
         <ScrollView style={styles.scrollContainer}>
@@ -81,8 +170,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     borderWidth: 1,
     borderColor: "red",
-    flex: 1,
-    justifyContent: "center"
+    flex: 1
   },
   scrollContainer: {
     margin: 0,
@@ -100,6 +188,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = ({ teams }) => ({ teams });
+const mapStateToProps = ({ teams, user }) => ({ teams, user });
 
 export default connect(mapStateToProps, actions)(Teams);
