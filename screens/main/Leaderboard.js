@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import { object } from "prop-types";
 import { connect } from "react-redux";
-import { Text, ScrollView, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
@@ -12,22 +12,29 @@ import { Container } from "../../components";
 // Styling could use some love
 
 class Teams extends Component {
+  static propTypes = {
+    user: object
+  };
+
   render() {
     return (
-      <Container
-        bgColor={colors.WHITE}
-        style={{ paddingTop: 20 }}
-        title="Leaderboard"
-      >
-        <ScrollView>
-          {this.props.user.list.map(user => {
+      <Container bgColor={colors.WHITE} title="Leaderboard">
+        <ScrollView style={styles.container}>
+          {this.props.user.list.map((user, index) => {
             return (
-              <View key={user.id} style={{borderWidth: 1, paddingVertical: 10}}>
-                <Text>
-                  {user.handle} - W: {user.games_won} L: {user.games_lost}
-                </Text>
-                <Text>
-                  PCT: {user.winning_percentage}
+              <View style={styles.listItem} key={user.id}>
+                {index === 0 ? (
+                  <Text style={[styles.listItemTitle, { fontSize: 20 }]}>
+                    🏆 {user.handle}
+                  </Text>
+                ) : (
+                  <Text style={styles.listItemTitle}>{user.handle}</Text>
+                )}
+
+                <Text style={styles.listItemBody}>Won: {user.games_won}</Text>
+                <Text style={styles.listItemBody}>Lost: {user.games_lost}</Text>
+                <Text style={styles.listItemBody}>
+                  Pct: {user.winning_percentage}%
                 </Text>
               </View>
             );
@@ -37,6 +44,28 @@ class Teams extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    margin: 0,
+    paddingVertical: 15,
+    paddingHorizontal: 20
+  },
+  listItem: {
+    paddingVertical: 10,
+    borderBottomWidth: 0.5,
+    borderColor: colors.GREY
+  },
+  listItemTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: colors.BLACK
+  },
+  listItemBody: {
+    fontSize: 14,
+    color: colors.GREY
+  }
+});
 
 const mapStateToProps = ({ user }) => ({ user });
 

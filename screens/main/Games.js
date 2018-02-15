@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import { object, func } from "prop-types";
 import { connect } from "react-redux";
 import {
   StyleSheet,
@@ -13,10 +13,16 @@ import {
 
 import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
-import * as dimensions from "../../styles/dimensions";
 import { Button, Container } from "../../components";
 
 class Teams extends Component {
+  static propTypes = {
+    games: object,
+    teams: object,
+    createGame: func,
+    fetchUsers: func
+  };
+
   state = { gameModalVisible: false, teamIds: [], teams: [] };
 
   componentWillReceiveProps(nextProps) {
@@ -26,20 +32,19 @@ class Teams extends Component {
   }
 
   openGameModal = () => {
-    this.setState({ gameModalVisible: true });
+    this.setState({ gameModalVisible: true, teamIds: [] });
   };
 
   closeGameModal = () => {
-    this.setState({ gameModalVisible: false });
+    this.setState({ gameModalVisible: false, teamIds: [] });
   };
 
   handleSelectTeam = id => {
     if (this.state.teamIds.length === 2) {
-      this.setState({ teamIds: [
-        this.state.teamIds[0],
-        id
-      ]})
-      return
+      this.setState({
+        teamIds: [this.state.teamIds[0], id]
+      });
+      return;
     }
 
     this.setState({ teamIds: this.state.teamIds.concat(id) });
@@ -47,21 +52,24 @@ class Teams extends Component {
 
   findAvailableTeams = (firstTeamId, teams) => {
     if (!firstTeamId) return teams;
+    if (this.state.teamIds.length === 2) return [];
 
-    const index = teams.findIndex(team => team.id === firstTeamId)
+    const index = teams.findIndex(team => team.id === firstTeamId);
     const { captain_id, player_id } = teams[index];
-    const teamPlayers = [captain_id, player_id]
+    const teamPlayers = [captain_id, player_id];
 
-    return teams.filter(({captain_id, player_id}) => {
-      return !(teamPlayers.includes(captain_id) || teamPlayers.includes(player_id))
-    })
+    return teams.filter(({ captain_id, player_id }) => {
+      return !(
+        teamPlayers.includes(captain_id) || teamPlayers.includes(player_id)
+      );
+    });
   };
 
   handleAddGame = async () => {
     const [winning_team_id, losing_team_id] = this.state.teamIds;
     await this.props.createGame({ winning_team_id, losing_team_id });
-    await this.setState({ teamIds: [] })
-    this.closeGameModal()
+    await this.props.fetchUsers();
+    this.closeGameModal();
   };
 
   displayTeamNameById = id => {
@@ -78,64 +86,64 @@ class Teams extends Component {
       this.state.teams
     );
     const [winningTeamId, losingTeamId] = this.state.teamIds;
+    const buttonIsDisabled = this.state.teamIds.length < 2;
 
     return (
-      <Container
-        bgColor={colors.WHITE}
-        style={{ paddingTop: 20 }}
-        title="Games"
-      >
+      <Container bgColor={colors.WHITE} title="Games">
         <Modal
           visible={this.state.gameModalVisible}
           animationType={"slide"}
           onRequestClose={() => this.closeGameModal()}
         >
           <SafeAreaView style={styles.modalContainer}>
-            <View>
-              <Text style={{ fontWeight: "600" }}>Winning Team:</Text>
-            </View>
-            {winningTeamId && (
-              <Text>{this.displayTeamNameById(winningTeamId)}</Text>
+            {this.state.teamIds.length > 0 && (
+              <TouchableOpacity
+                style={styles.resetButton}
+                onPress={() => this.setState({ teamIds: [] })}
+              >
+                <Text style={styles.resetButtonText}>Reset Participants</Text>
+              </TouchableOpacity>
             )}
 
-            <View>
-              <Text>========</Text>
+            <View style={styles.participatingTeamsContainer}>
+              <Text style={styles.participatingTeamsTitle}>Winning Team:</Text>
+              {winningTeamId && (
+                <Text style={styles.participatingTeamsBody}>
+                  {this.displayTeamNameById(winningTeamId)}
+                </Text>
+              )}
+              {this.state.teamIds.length > 0 && (
+                <Text style={styles.participatingTeamsTitle}>Losing Team:</Text>
+              )}
+              {losingTeamId && (
+                <Text style={styles.participatingTeamsBody}>
+                  {this.displayTeamNameById(losingTeamId)}
+                </Text>
+              )}
             </View>
 
-            <View>
-              <Text style={{ fontWeight: "600" }}>Losing Team:</Text>
-            </View>
-            {losingTeamId && (
-              <Text>{this.displayTeamNameById(losingTeamId)}</Text>
-            )}
-
-            <View>
-              <Text>========</Text>
-            </View>
-
-            <TouchableOpacity onPress={() => this.setState({ teamIds: [] })}>
-              <Text>RESET</Text>
-            </TouchableOpacity>
-
-            <ScrollView style={styles.modalContainer}>
+            <ScrollView>
               <View style={styles.innerContainer}>
                 {filteredTeams.map(team => {
                   return (
                     <TouchableOpacity
-                      style={[styles.listItemContainer]}
+                      style={styles.container}
                       key={team.id}
                       onPress={this.handleSelectTeam.bind(this, team.id)}
                     >
-                      <Text style={styles.listItem}>{team.team_name}</Text>
+                      <Text style={styles.modalListItemText}>
+                        {team.team_name}
+                      </Text>
                     </TouchableOpacity>
                   );
                 })}
               </View>
             </ScrollView>
             <Button
-              bgColor={colors.BLACK}
-              borderColor={colors.BLACK}
-              textColor={colors.WHITE}
+              disabled={buttonIsDisabled}
+              bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.GREY}
+              borderColor={buttonIsDisabled ? colors.BLACK : colors.GREY}
+              textColor={buttonIsDisabled ? colors.BLACK : colors.WHITE}
               handlePress={this.handleAddGame}
             >
               Add Game
@@ -152,20 +160,22 @@ class Teams extends Component {
           </SafeAreaView>
         </Modal>
 
-        <ScrollView>
-          {this.props.games.data.slice().reverse().map(game => {
-            return (
-              <View
-                style={{ borderBottomWidth: 0.5, paddingVertical: 10 }}
-                key={game.id}
-              >
-                <Text style={{ fontWeight: "600" }}>
-                  Winner: {game.winning_team}
-                </Text>
-                <Text>Loser: {game.losing_team}</Text>
-              </View>
-            );
-          })}
+        <ScrollView style={styles.container}>
+          {this.props.games.data
+            .slice()
+            .reverse()
+            .map(game => {
+              return (
+                <View style={styles.listItem} key={game.id}>
+                  <Text style={styles.listItemTitle}>
+                    🏆 {game.winning_team}
+                  </Text>
+                  <Text style={styles.listItemBody}>
+                    Losers: {game.losing_team}
+                  </Text>
+                </View>
+              );
+            })}
         </ScrollView>
         <Button
           bgColor={colors.BLACK}
@@ -182,25 +192,55 @@ class Teams extends Component {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    flex: 1,
-    height: dimensions.SCREEN_HEIGHT
-  },
-  innerContainer: {
     flex: 1
   },
-  scrollContainer: {
-    margin: 0,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: dimensions.SCREEN_WIDTH
+  modalListItemText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: colors.BLACK
   },
-  listItemContainer: {
-    paddingVertical: 10,
-    borderBottomWidth: 0.5
+  resetButton: {
+    backgroundColor: colors.GREY,
+    padding: 13
+  },
+  resetButtonText: {
+    fontWeight: "600",
+    fontSize: 16,
+    color: colors.WHITE,
+    alignSelf: "center"
+  },
+  participatingTeamsContainer: {
+    padding: 20
+  },
+  participatingTeamsTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: colors.BLACK
+  },
+  participatingTeamsBody: {
+    fontSize: 14,
+    color: colors.GREY,
+    marginBottom: 5
+  },
+  container: {
+    margin: 0,
+    paddingVertical: 15,
+    paddingHorizontal: 20
   },
   listItem: {
-    fontSize: 16,
-    fontWeight: "600"
+    paddingVertical: 10,
+    borderBottomWidth: 0.5,
+    borderColor: colors.GREY
+  },
+  listItemTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: colors.BLACK,
+    paddingBottom: 10
+  },
+  listItemBody: {
+    fontSize: 14,
+    color: colors.GREY
   }
 });
 

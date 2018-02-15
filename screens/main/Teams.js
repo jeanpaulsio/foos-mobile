@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import { object, func } from "prop-types";
 import { connect } from "react-redux";
 import {
   SafeAreaView,
@@ -13,10 +13,15 @@ import {
 
 import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
-import * as dimensions from "../../styles/dimensions";
 import { Button, Container } from "../../components";
 
 class Teams extends Component {
+  static propTypes = {
+    teams: object,
+    user: object,
+    createTeam: func
+  };
+
   state = { userModalVisible: false, playerIds: [], users: [] };
 
   componentWillReceiveProps(nextProps) {
@@ -49,9 +54,9 @@ class Teams extends Component {
   };
 
   handleAddTeam = async () => {
-    const [captain_id, player_id] = this.state.playerIds
+    const [captain_id, player_id] = this.state.playerIds;
 
-    await this.props.createTeam({ captain_id, player_id })
+    await this.props.createTeam({ captain_id, player_id });
     this.closeUserModal();
   };
 
@@ -69,13 +74,13 @@ class Teams extends Component {
       unavailableIds.push(pair.player_id);
     });
 
-    unavailableIds = unavailableIds.filter(id => id !== firstPlayerId)
+    unavailableIds = unavailableIds.filter(id => id !== firstPlayerId);
 
     let availableUsers = users.filter(user => {
       return !unavailableIds.includes(user.id);
     });
 
-    return availableUsers
+    return availableUsers;
   };
 
   render() {
@@ -85,6 +90,8 @@ class Teams extends Component {
       this.props.teams.data
     );
 
+    const buttonIsDisabled = this.state.playerIds.length < 2;
+
     return (
       <Container title="Teams">
         <Modal
@@ -93,34 +100,37 @@ class Teams extends Component {
           onRequestClose={() => this.closeUserModal()}
         >
           <SafeAreaView style={styles.modalContainer}>
-            <ScrollView style={styles.modalContainer}>
-              <View style={styles.innerContainer}>
-                {filteredUsers.map(user => {
-                  return (
-                    <TouchableOpacity
+            <ScrollView>
+              {filteredUsers.map(user => {
+                return (
+                  <TouchableOpacity
+                    style={[
+                      styles.container,
+                      this.state.playerIds.includes(user.id) &&
+                        styles.modalListItemSelected
+                    ]}
+                    key={user.id}
+                    onPress={this.handleSelectPlayer.bind(this, user.id)}
+                  >
+                    <Text
                       style={[
-                        styles.listItemContainer,
-                        {
-                          backgroundColor: this.state.playerIds.includes(
-                            user.id
-                          )
-                            ? "red"
-                            : "white"
-                        }
+                        styles.modalListItemText,
+                        this.state.playerIds.includes(user.id) &&
+                          styles.modalListItemTextSelected
                       ]}
-                      key={user.id}
-                      onPress={this.handleSelectPlayer.bind(this, user.id)}
                     >
-                      <Text style={styles.listItem}>{user.handle}</Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
+                      {user.handle}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
             </ScrollView>
+
             <Button
-              bgColor={colors.BLACK}
-              borderColor={colors.BLACK}
-              textColor={colors.WHITE}
+              disabled={buttonIsDisabled}
+              bgColor={buttonIsDisabled ? colors.TRANSPARENT : colors.GREY}
+              borderColor={buttonIsDisabled ? colors.BLACK : colors.GREY}
+              textColor={buttonIsDisabled ? colors.BLACK : colors.WHITE}
               handlePress={this.handleAddTeam}
             >
               Add Team
@@ -137,14 +147,16 @@ class Teams extends Component {
           </SafeAreaView>
         </Modal>
 
-        <ScrollView style={styles.scrollContainer}>
+        <ScrollView style={styles.container}>
           {this.props.teams.data.map(team => {
             return (
-              <View style={styles.listItemContainer} key={team.id}>
-                <Text style={styles.listItem}>{team.team_name}</Text>
-                <Text>Won: {team.games_won}</Text>
-                <Text>Lost: {team.games_lost}</Text>
-                <Text>Pct: {team.winning_percentage}</Text>
+              <View style={styles.listItem} key={team.id}>
+                <Text style={styles.listItemTitle}>{team.team_name}</Text>
+                <Text style={styles.listItemBody}>Won: {team.games_won}</Text>
+                <Text style={styles.listItemBody}>Lost: {team.games_lost}</Text>
+                <Text style={styles.listItemBody}>
+                  Pct: {team.winning_percentage}%
+                </Text>
               </View>
             );
           })}
@@ -165,27 +177,37 @@ class Teams extends Component {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    flex: 1,
-    height: dimensions.SCREEN_HEIGHT
-  },
-  innerContainer: {
-    borderWidth: 1,
-    borderColor: "red",
     flex: 1
   },
-  scrollContainer: {
-    margin: 0,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: dimensions.SCREEN_WIDTH
+  modalListItemSelected: {
+    backgroundColor: colors.BLACK
   },
-  listItemContainer: {
-    paddingVertical: 10,
-    borderBottomWidth: 0.5
+  modalListItemText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: colors.BLACK
+  },
+  modalListItemTextSelected: {
+    color: colors.WHITE
+  },
+  container: {
+    margin: 0,
+    paddingVertical: 15,
+    paddingHorizontal: 20
   },
   listItem: {
+    paddingVertical: 10,
+    borderBottomWidth: 0.5,
+    borderColor: colors.GREY
+  },
+  listItemTitle: {
     fontSize: 16,
-    fontWeight: "600"
+    fontWeight: "600",
+    color: colors.BLACK
+  },
+  listItemBody: {
+    fontSize: 14,
+    color: colors.GREY
   }
 });
 
