@@ -53,7 +53,9 @@ class Login extends Component {
 
   handleSignIn = () => {
     const { handle, password } = this.state;
-    this.props.signIn({ handle, password }, () => this.fetchData());
+    this.props.signIn({ handle: handle.toLowerCase(), password }, () =>
+      this.fetchData()
+    );
     this.setState({ handle: "", password: "" });
     Keyboard.dismiss();
   };

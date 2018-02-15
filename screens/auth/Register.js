@@ -18,7 +18,7 @@ class Register extends Component {
 
   handleRegister = () => {
     const params = {
-      handle: this.state.handle,
+      handle: this.state.handle.toLowerCase(),
       password: this.state.password,
       password_confirmation: this.state.password
     };
