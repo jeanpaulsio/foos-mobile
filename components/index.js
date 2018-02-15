@@ -5,3 +5,4 @@ export * from "./Center";
 export * from "./Header";
 export * from "./Input";
 export * from "./TabBar";
+export * from "./Spinner";

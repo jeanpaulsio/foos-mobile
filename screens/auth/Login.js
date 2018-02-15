@@ -1,29 +1,55 @@
 import React, { Component } from "react";
+import { func, object } from "prop-types";
 import { connect } from "react-redux";
-import { AsyncStorage, Image, Keyboard, StyleSheet } from "react-native";
-import PropTypes from "prop-types";
+import { AsyncStorage, Image, Keyboard, StyleSheet, View } from "react-native";
 
 import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
-import { Button, Container, Center, Input } from "../../components";
+import { Button, Center, Container, Input, Spinner } from "../../components";
 import { someEmptyItems } from "../../lib/utils";
 import { removeToken } from "../../lib/auth_helpers";
 
 class Login extends Component {
-  state = { handle: "", password: "", forceSignOut: false };
+  static propTypes = {
+    signIn: func,
+    validateToken: func,
+    fetchTeams: func,
+    fetchUsers: func,
+    fetchGames: func,
+    navigateTo: func,
+    navigation: object,
+    auth: object,
+    errors: object
+  };
+
+  state = {
+    finishedLoading: false,
+    handle: "",
+    password: "",
+    forceSignOut: false
+  };
 
   async componentDidMount() {
     this.state.forceSignOut && removeToken();
 
     const jwt = await AsyncStorage.getItem("jwt");
-    await this.props.validateToken(jwt, () => this.fetchData());
+    await this.props.validateToken(jwt, () => {
+      this.fetchData();
+      this.setState({ finishedLoading: true });
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.auth.isValidatingToken && !nextProps.auth.jwt) {
+      this.setState({ finishedLoading: true });
+    }
   }
 
   fetchData = () => {
     this.props.fetchTeams();
     this.props.fetchUsers();
     this.props.fetchGames();
-  }
+  };
 
   handleSignIn = () => {
     const { handle, password } = this.state;
@@ -35,6 +61,8 @@ class Login extends Component {
   render() {
     const { handle, password } = this.state;
     const buttonIsDisabled = someEmptyItems(handle, password);
+
+    if (!this.state.finishedLoading) return <Spinner />;
 
     return (
       <Container
@@ -102,17 +130,6 @@ const styles = StyleSheet.create({
   }
 });
 
-Login.propTypes = {
-  signIn: PropTypes.func,
-  validateToken: PropTypes.func,
-  fetchTeams: PropTypes.func,
-  fetchUsers: PropTypes.func,
-  fetchGames: PropTypes.func,
-  navigateTo: PropTypes.func,
-  navigation: PropTypes.object,
-  errors: PropTypes.object
-};
-
-const mapStateToProps = ({ errors }) => ({ errors });
+const mapStateToProps = ({ auth, errors }) => ({ auth, errors });
 
 export default connect(mapStateToProps, actions)(Login);
