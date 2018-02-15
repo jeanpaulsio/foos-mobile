@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { object, func } from "prop-types";
 import { connect } from "react-redux";
 import {
+  RefreshControl,
   StyleSheet,
   SafeAreaView,
   ScrollView,
@@ -20,10 +21,16 @@ class Teams extends Component {
     games: object,
     teams: object,
     createGame: func,
+    fetchGames: func,
     fetchUsers: func
   };
 
-  state = { gameModalVisible: false, teamIds: [], teams: [] };
+  state = {
+    refreshing: false,
+    gameModalVisible: false,
+    teamIds: [],
+    teams: []
+  };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.teams.data !== nextProps.teams.data) {
@@ -78,6 +85,12 @@ class Teams extends Component {
     });
     const { team_name } = this.props.teams.data[index];
     return team_name;
+  };
+
+  handleRefresh = async () => {
+    this.setState({ refreshing: true });
+    await this.props.fetchGames();
+    this.setState({ refreshing: false });
   };
 
   render() {
@@ -160,7 +173,18 @@ class Teams extends Component {
           </SafeAreaView>
         </Modal>
 
-        <ScrollView style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          refreshControl={
+            <RefreshControl
+              enabled={true}
+              tintColor={colors.GREY}
+              colors={[colors.GREY]}
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefresh}
+            />
+          }
+        >
           {this.props.games.data
             .slice()
             .reverse()
@@ -211,7 +235,7 @@ const styles = StyleSheet.create({
   },
   participatingTeamsContainer: {
     padding: 20,
-    borderBottomWidth: .5,
+    borderBottomWidth: 0.5,
     borderColor: colors.GREY
   },
   participatingTeamsTitle: {
