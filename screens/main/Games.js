@@ -186,8 +186,6 @@ class Teams extends Component {
           }
         >
           {this.props.games.data
-            .slice()
-            .reverse()
             .map(game => {
               return (
                 <View style={styles.listItem} key={game.id}>
