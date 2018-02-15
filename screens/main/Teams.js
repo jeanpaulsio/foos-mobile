@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { object, func } from "prop-types";
 import { connect } from "react-redux";
 import {
+  RefreshControl,
   SafeAreaView,
   Modal,
   ScrollView,
@@ -19,10 +20,16 @@ class Teams extends Component {
   static propTypes = {
     teams: object,
     user: object,
-    createTeam: func
+    createTeam: func,
+    fetchTeams: func
   };
 
-  state = { userModalVisible: false, playerIds: [], users: [] };
+  state = {
+    refreshing: false,
+    userModalVisible: false,
+    playerIds: [],
+    users: []
+  };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.user.list !== nextProps.user.list) {
@@ -81,6 +88,12 @@ class Teams extends Component {
     });
 
     return availableUsers;
+  };
+
+  handleRefresh = async () => {
+    this.setState({ refreshing: true });
+    await this.props.fetchTeams();
+    this.setState({ refreshing: false });
   };
 
   render() {
@@ -147,7 +160,18 @@ class Teams extends Component {
           </SafeAreaView>
         </Modal>
 
-        <ScrollView style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          refreshControl={
+            <RefreshControl
+              enabled={true}
+              tintColor={colors.GREY}
+              colors={[colors.GREY]}
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefresh}
+            />
+          }
+        >
           {this.props.teams.data.map(team => {
             return (
               <View style={styles.listItem} key={team.id}>

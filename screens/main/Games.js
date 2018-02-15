@@ -195,6 +195,9 @@ class Teams extends Component {
                   <Text style={styles.listItemBody}>
                     Losers: {game.losing_team}
                   </Text>
+                  <Text style={styles.listItemBody}>
+                    Game ID: {game.id}
+                  </Text>
                 </View>
               );
             })}
