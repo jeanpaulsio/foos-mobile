@@ -57,7 +57,12 @@ class Teams extends Component {
     })
   };
 
-  handleAddGame = () => {};
+  handleAddGame = async () => {
+    const [winning_team_id, losing_team_id] = this.state.teamIds;
+    await this.props.createGame({ winning_team_id, losing_team_id });
+    await this.setState({ teamIds: [] })
+    this.closeGameModal()
+  };
 
   displayTeamNameById = id => {
     const index = this.props.teams.data.findIndex(team => {
@@ -148,7 +153,7 @@ class Teams extends Component {
         </Modal>
 
         <ScrollView>
-          {this.props.games.data.map(game => {
+          {this.props.games.data.slice().reverse().map(game => {
             return (
               <View
                 style={{ borderBottomWidth: 0.5, paddingVertical: 10 }}

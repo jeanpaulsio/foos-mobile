@@ -3,6 +3,9 @@ import {
   FETCHING_GAMES,
   FETCHING_GAMES_FAIL,
   FETCHING_GAMES_SUCCESS,
+  CREATING_GAME,
+  CREATING_GAME_FAIL,
+  CREATING_GAME_SUCCESS
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -28,6 +31,25 @@ export default (state = INITIAL_STATE, action) => {
         isFetching: false,
         data: action.payload
       };
+    case CREATING_GAME:
+      return {
+        ...state,
+        isCreating: true
+      }
+    case CREATING_GAME_FAIL:
+      return {
+        ...state,
+        isCreating: false
+      }
+    case CREATING_GAME_SUCCESS:
+      return {
+        ...state,
+        isCreating: false,
+        data: [
+          ...state.data,
+          action.payload
+        ]
+      }
     case SIGNING_OUT:
       return INITIAL_STATE;
     default:
