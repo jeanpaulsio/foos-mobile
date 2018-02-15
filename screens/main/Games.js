@@ -210,7 +210,9 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   participatingTeamsContainer: {
-    padding: 20
+    padding: 20,
+    borderBottomWidth: .5,
+    borderColor: colors.GREY
   },
   participatingTeamsTitle: {
     fontSize: 18,
