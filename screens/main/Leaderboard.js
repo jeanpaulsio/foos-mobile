@@ -1,7 +1,13 @@
 import React, { Component } from "react";
-import { object } from "prop-types";
+import { func, object } from "prop-types";
 import { connect } from "react-redux";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View
+} from "react-native";
 
 import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
@@ -13,13 +19,33 @@ import { Container } from "../../components";
 
 class Teams extends Component {
   static propTypes = {
-    user: object
+    user: object,
+    fetchUsers: func
+  };
+
+  state = { refreshing: false };
+
+  handleRefresh = async () => {
+    this.setState({ refreshing: true });
+    await this.props.fetchUsers();
+    this.setState({ refreshing: false });
   };
 
   render() {
     return (
       <Container bgColor={colors.WHITE} title="Leaderboard">
-        <ScrollView style={styles.container}>
+        <ScrollView
+          style={styles.container}
+          refreshControl={
+            <RefreshControl
+              enabled={true}
+              tintColor={colors.GREY}
+              colors={[colors.GREY]}
+              refreshing={this.state.refreshing}
+              onRefresh={this.handleRefresh}
+            />
+          }
+        >
           {this.props.user.list.map((user, index) => {
             return (
               <View style={styles.listItem} key={user.id}>

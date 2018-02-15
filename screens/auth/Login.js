@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { func, object } from "prop-types";
 import { connect } from "react-redux";
-import { AsyncStorage, Image, Keyboard, StyleSheet, View } from "react-native";
+import { AsyncStorage, Image, Keyboard, StyleSheet } from "react-native";
 
 import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
