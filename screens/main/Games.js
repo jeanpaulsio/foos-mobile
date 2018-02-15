@@ -17,7 +17,13 @@ import * as dimensions from "../../styles/dimensions";
 import { Button, Container } from "../../components";
 
 class Teams extends Component {
-  state = { gameModalVisible: false };
+  state = { gameModalVisible: false, teamIds: [], teams: [] };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.teams.data !== nextProps.teams.data) {
+      this.setState({ teams: nextProps.teams.data });
+    }
+  }
 
   openGameModal = () => {
     this.setState({ gameModalVisible: true });
@@ -27,11 +33,47 @@ class Teams extends Component {
     this.setState({ gameModalVisible: false });
   };
 
-  handleSelectTeam = () => {}
+  handleSelectTeam = id => {
+    if (this.state.teamIds.length === 2) {
+      this.setState({ teamIds: [
+        this.state.teamIds[0],
+        id
+      ]})
+      return
+    }
+
+    this.setState({ teamIds: this.state.teamIds.concat(id) });
+  };
+
+  findAvailableTeams = (firstTeamId, teams) => {
+    if (!firstTeamId) return teams;
+
+    const index = teams.findIndex(team => team.id === firstTeamId)
+    const { captain_id, player_id } = teams[index];
+    const teamPlayers = [captain_id, player_id]
+
+    return teams.filter(({captain_id, player_id}) => {
+      return !(teamPlayers.includes(captain_id) || teamPlayers.includes(player_id))
+    })
+  };
 
   handleAddGame = () => {};
 
+  displayTeamNameById = id => {
+    const index = this.props.teams.data.findIndex(team => {
+      return team.id === id;
+    });
+    const { team_name } = this.props.teams.data[index];
+    return team_name;
+  };
+
   render() {
+    const filteredTeams = this.findAvailableTeams(
+      this.state.teamIds[0],
+      this.state.teams
+    );
+    const [winningTeamId, losingTeamId] = this.state.teamIds;
+
     return (
       <Container
         bgColor={colors.WHITE}
@@ -44,14 +86,38 @@ class Teams extends Component {
           onRequestClose={() => this.closeGameModal()}
         >
           <SafeAreaView style={styles.modalContainer}>
+            <View>
+              <Text style={{ fontWeight: "600" }}>Winning Team:</Text>
+            </View>
+            {winningTeamId && (
+              <Text>{this.displayTeamNameById(winningTeamId)}</Text>
+            )}
+
+            <View>
+              <Text>========</Text>
+            </View>
+
+            <View>
+              <Text style={{ fontWeight: "600" }}>Losing Team:</Text>
+            </View>
+            {losingTeamId && (
+              <Text>{this.displayTeamNameById(losingTeamId)}</Text>
+            )}
+
+            <View>
+              <Text>========</Text>
+            </View>
+
+            <TouchableOpacity onPress={() => this.setState({ teamIds: [] })}>
+              <Text>RESET</Text>
+            </TouchableOpacity>
+
             <ScrollView style={styles.modalContainer}>
               <View style={styles.innerContainer}>
-                {this.props.teams.data.map(team => {
+                {filteredTeams.map(team => {
                   return (
                     <TouchableOpacity
-                      style={[
-                        styles.listItemContainer
-                      ]}
+                      style={[styles.listItemContainer]}
                       key={team.id}
                       onPress={this.handleSelectTeam.bind(this, team.id)}
                     >
