@@ -17,7 +17,7 @@ import { Container } from "../../components";
 // The API sends users back in order - so no front-end sorting needed
 // Styling could use some love
 
-class Teams extends Component {
+class Leaderboard extends Component {
   static propTypes = {
     user: object,
     fetchUsers: func
@@ -107,4 +107,4 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ user }) => ({ user });
 
-export default connect(mapStateToProps, actions)(Teams);
+export default connect(mapStateToProps, actions)(Leaderboard);

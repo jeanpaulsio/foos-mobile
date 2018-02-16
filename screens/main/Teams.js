@@ -175,7 +175,10 @@ class Teams extends Component {
           {this.props.teams.data.map(team => {
             return (
               <View style={styles.listItem} key={team.id}>
-                <Text style={styles.listItemTitle}>{team.team_name}</Text>
+                <View style={styles.handleContainer}>
+                  <Text style={styles.listItemTitle}>{team.team_name}</Text>
+                  <Text style={styles.listItemTitle}>{team.average_rating}</Text>
+                </View>
                 <Text style={styles.listItemBody}>Won: {team.games_won}</Text>
                 <Text style={styles.listItemBody}>Lost: {team.games_lost}</Text>
                 <Text style={styles.listItemBody}>
@@ -218,6 +221,11 @@ const styles = StyleSheet.create({
     margin: 0,
     paddingVertical: 15,
     paddingHorizontal: 20
+  },
+  handleContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   listItem: {
     paddingVertical: 10,

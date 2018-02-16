@@ -11,12 +11,13 @@ import {
   Modal,
   TouchableOpacity
 } from "react-native";
+import ActionCable from "react-native-actioncable";
 
 import * as actions from "../../actions";
 import * as colors from "../../styles/colors";
 import { Button, Container } from "../../components";
 
-class Teams extends Component {
+class Games extends Component {
   static propTypes = {
     games: object,
     teams: object,
@@ -31,6 +32,20 @@ class Teams extends Component {
     teamIds: [],
     teams: []
   };
+
+  cable = ActionCable.createConsumer("wss://foos-api.herokuapp.com/cable");
+
+  componentDidMount() {
+    this.cable.subscriptions.create("GameChannel", {
+      received: () => {
+        this.props.fetchGames();
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.cable.subscriptions.remove(this.cable);
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.teams.data !== nextProps.teams.data) {
@@ -272,4 +287,4 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = ({ games, teams }) => ({ games, teams });
 
-export default connect(mapStateToProps, actions)(Teams);
+export default connect(mapStateToProps, actions)(Games);
