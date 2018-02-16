@@ -93,6 +93,10 @@ class Teams extends Component {
     this.setState({ refreshing: false });
   };
 
+  generateRandomShame = () => {
+    return Math.floor(Math.random() * 1000) % 2 === 0 && "😂";
+  };
+
   render() {
     const filteredTeams = this.findAvailableTeams(
       this.state.teamIds[0],
@@ -185,22 +189,17 @@ class Teams extends Component {
             />
           }
         >
-          {this.props.games.data
-            .map(game => {
-              return (
-                <View style={styles.listItem} key={game.id}>
-                  <Text style={styles.listItemTitle}>
-                    🏆 {game.winning_team}
-                  </Text>
-                  <Text style={styles.listItemBody}>
-                    Losers: {game.losing_team}
-                  </Text>
-                  <Text style={styles.listItemBody}>
-                    Game ID: {game.id}
-                  </Text>
-                </View>
-              );
-            })}
+          {this.props.games.data.map(game => {
+            return (
+              <View style={styles.listItem} key={game.id}>
+                <Text style={styles.listItemTitle}>🏆 {game.winning_team}</Text>
+                <Text style={styles.listItemBody}>
+                  Losers: {game.losing_team} {this.generateRandomShame()}
+                </Text>
+                <Text style={styles.listItemBody}>Game ID: {game.id}</Text>
+              </View>
+            );
+          })}
         </ScrollView>
         <Button
           bgColor={colors.BLACK}

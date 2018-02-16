@@ -46,17 +46,24 @@ class Teams extends Component {
             />
           }
         >
-          {this.props.user.list.map((user, index) => {
+          {this.props.user.list.filter(user => user.games_played > 0).map((user, index) => {
             return (
               <View style={styles.listItem} key={user.id}>
-                {index === 0 ? (
-                  <Text style={[styles.listItemTitle, { fontSize: 20 }]}>
-                    🏆 {user.handle}
-                  </Text>
-                ) : (
-                  <Text style={styles.listItemTitle}>{user.handle}</Text>
-                )}
-
+                <View style={styles.handleContainer}>
+                  {index === 0 && (
+                    <Text style={styles.listItemTitle}>🥇{user.handle}</Text>
+                  )}
+                  {index === 1 && (
+                    <Text style={styles.listItemTitle}>🥈{user.handle}</Text>
+                  )}
+                  {index === 2 && (
+                    <Text style={styles.listItemTitle}>🥉{user.handle}</Text>
+                  )}
+                  {index > 2 && (
+                    <Text style={styles.listItemTitle}>{user.handle}</Text>
+                  )}
+                  <Text style={styles.listItemTitle}>{user.rating}</Text>
+                </View>
                 <Text style={styles.listItemBody}>Won: {user.games_won}</Text>
                 <Text style={styles.listItemBody}>Lost: {user.games_lost}</Text>
                 <Text style={styles.listItemBody}>
@@ -76,6 +83,11 @@ const styles = StyleSheet.create({
     margin: 0,
     paddingVertical: 15,
     paddingHorizontal: 20
+  },
+  handleContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   listItem: {
     paddingVertical: 10,

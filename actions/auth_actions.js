@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { VALIDATING_TOKEN, SIGNING_IN, SIGNING_UP, SIGNING_OUT } from "./types";
-import { PING, USER_TOKEN, USERS } from "../endpoints";
+import { PING, USER_TOKEN, USERS } from "../api";
 import {
   generatePostBody,
   requestHeaders,

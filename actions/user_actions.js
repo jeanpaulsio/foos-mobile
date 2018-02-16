@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { FETCHING_USERS, UPDATING_USER } from "./types";
-import { USER, USERS } from "../endpoints";
+import { USER, USERS } from "../api";
 import {
   generatePostBody,
   requestHeaders,

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { FETCHING_GAMES, CREATING_GAME } from "./types";
-import { GAMES } from "../endpoints";
+import { GAMES } from "../api";
 import {
   generatePostBody,
   requestHeaders,

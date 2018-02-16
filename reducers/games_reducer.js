@@ -35,21 +35,18 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isCreating: true
-      }
+      };
     case CREATING_GAME_FAIL:
       return {
         ...state,
         isCreating: false
-      }
+      };
     case CREATING_GAME_SUCCESS:
       return {
         ...state,
         isCreating: false,
-        data: [
-          ...state.data,
-          action.payload
-        ]
-      }
+        data: [action.payload, ...state.data]
+      };
     case SIGNING_OUT:
       return INITIAL_STATE;
     default:

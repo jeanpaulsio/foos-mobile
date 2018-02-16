@@ -1,6 +1,6 @@
 import axios from "axios";
 import { FETCHING_TEAMS, CREATING_TEAM } from "./types";
-import { TEAMS } from "../endpoints";
+import { TEAMS } from "../api";
 import {
   generatePostBody,
   getToken,
